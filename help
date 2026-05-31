@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服務台聯絡中心 - 鍋好日大魯閣新時代</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Google Fonts (Inter 與 繁體中文支援) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans TC', 'sans-serif'],
+                    },
+                    colors: {
+                        lineGreen: {
+                            500: '#06C755',
+                            600: '#05b34c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', 'sans-serif';
+            background-color: #f8fafc;
+        }
+        /* 流暢的淡入效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        /* 美化 Google Form Iframe 容器 */
+        .iframe-wrapper {
+            position: relative;
+            width: 100%;
+            height: 850px;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+        }
+        .iframe-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-start py-6 px-4 sm:py-10 sm:px-6 lg:px-8">
+
+    <div class="max-w-2xl w-full space-y-6 animate-fade-in">
+        
+        <!-- 頂部精美 header 卡片 -->
+        <div class="bg-gradient-to-b from-amber-500 to-orange-600 rounded-2xl shadow-xl overflow-hidden text-white p-6 sm:p-8 text-center relative">
+            <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent pointer-events-none"></div>
+            <span class="bg-white/20 text-white text-[11px] sm:text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider inline-block mb-3 backdrop-blur-sm">
+                📞 服務台聯絡中心
+            </span>
+            <h1 class="text-2xl sm:text-3xl font-black tracking-tight">
+                您好！請問能協助您什麼？
+            </h1>
+            <p class="text-xs sm:text-sm text-amber-50 mt-2 max-w-md mx-auto leading-relaxed">
+                若您有任何服務需求、意見回饋，或有其他疑問，請使用以下管道，我們將有專人立即為您處理。
+            </p>
+        </div>
+
+        <!-- 溫馨警示條 -->
+        <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl shadow-sm">
+            <div class="flex items-start gap-3">
+                <span class="text-xl">💡</span>
+                <div>
+                    <h4 class="text-sm font-bold text-amber-800">服務台溫馨提示</h4>
+                    <p class="text-xs text-amber-700/90 mt-0.5 leading-relaxed">
+                        為了提供您最即時、貼心的協助，我們提供 <strong>LINE 線上客服</strong>、<strong>撥打服務台手機</strong>，或<strong>填寫線上表單</strong>等多元管道，歡迎隨時與我們聯繫。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+            <!-- 管道一：LINE 官方帳號 -->
+            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-md flex flex-col justify-between hover:shadow-lg transition-all duration-300">
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-3xl">💬</span>
+                        <span class="bg-emerald-50 text-emerald-600 text-[10px] font-bold px-2 py-0.5 rounded-full">最推薦</span>
+                    </div>
+                    <h3 class="text-base font-bold text-gray-900">LINE 官方線上客服</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed">
+                        專人即時在線回覆，可隨時發送訊息、查詢或留言，最方便快捷。
+                    </p>
+                </div>
+                <div class="mt-4 pt-2">
+                    <a href="https://lin.ee/tarGSA9" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 bg-lineGreen-500 hover:bg-lineGreen-600 text-white text-xs font-bold py-3 px-4 rounded-xl shadow transition-colors w-full text-center">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M24 10.304c0-5.369-5.383-9.738-12-9.738s-12 4.369-12 9.738c0 4.814 4.269 8.843 10.048 9.597.391.084.924.258 1.058.592.121.303.079.778.038 1.085l-.171 1.027c-.052.31-.252 1.215 1.085.663 1.338-.553 7.214-4.25 9.839-7.272 2.193-2.528 2.143-4.856 2.143-5.692zm-14.733 4.218H7.314a.424.424 0 0 1-.424-.424V10.1c0-.234.19-.424.424-.424h1.953c.234 0 .424.19.424.424v.433a.424.424 0 0 1-.424.424h-1.53v.831h1.53c.234 0 .424.19.424.424v.433a.424.424 0 0 1-.424.424zm3.036 0a.424.424 0 0 1-.424-.424V10.1c0-.234.19-.424.424-.424h.423c.234 0 .424.19.424.424v3.998a.424.424 0 0 1-.424.424zm4.496 0a.424.424 0 0 1-.362-.204l-1.89-2.738v2.518a.424.424 0 0 1-.424.424h-.424a.424.424 0 0 1-.424-.424V10.1c0-.234.19-.424.424-.424h.363c.154 0 .296.082.373.216l1.879 2.716V10.1c0-.234.19-.424.424-.424h.424c.234 0 .424.19.424.424v3.998a.424.424 0 0 1-.424.424zm3.435-2.072h-1.53v-.831h1.53c.234 0 .424.19.424.424v.433a.424.424 0 0 1-.424.424h-1.53v-.831h1.53c.234 0 .424.19.424.424v.433a.424.424 0 0 1-.424.424h1.953c.234 0 .424.19.424.424v.433a.424.424 0 0 1-.424.424z"/>
+                        </svg>
+                        立即加 LINE 詢問
+                    </a>
+                </div>
+            </div>
+
+            <!-- 管道二：電話聯繫專線 -->
+            <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-md flex flex-col justify-between hover:shadow-lg transition-all duration-300">
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-3xl">📱</span>
+                        <span class="bg-amber-50 text-amber-600 text-[10px] font-bold px-2 py-0.5 rounded-full">專人接聽</span>
+                    </div>
+                    <h3 class="text-base font-bold text-gray-900">服務台專屬手機</h3>
+                    <p class="text-xs text-gray-500 leading-relaxed">
+                        如有任何緊急服務需求，可直接撥打服務台手機專線，由客服專員為您處理。
+                    </p>
+                </div>
+                <div class="mt-4 pt-2">
+                    <a href="tel:0962040969" class="flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold py-3 px-4 rounded-xl shadow transition-colors w-full text-center">
+                        📞 直撥手機：0962040969
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 管道三：線上服務台聯絡表單 -->
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 sm:p-8 space-y-5">
+            <div class="border-b border-gray-100 pb-4">
+                <h2 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                    <span class="text-xl">✍️</span>
+                    線上服務台聯絡表單
+                </h2>
+                <p class="text-xs text-gray-400 mt-1">您也可以在下方直接填寫服務需求，我們會盡快與您聯繫</p>
+            </div>
+
+            <!-- Iframe 容器 -->
+            <div class="iframe-wrapper bg-slate-50 border border-slate-100">
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeXzxSy8LtpWqrW82naULjQO6eGc8q46rqDJ0ziOvccXbnHNw/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">載入中…</iframe>
+            </div>
+
+            <!-- 行動裝置輔助外連按鈕 -->
+            <div class="text-center pt-2">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeXzxSy8LtpWqrW82naULjQO6eGc8q46rqDJ0ziOvccXbnHNw/viewform?usp=sf_link" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs text-amber-700 hover:text-amber-900 font-medium bg-amber-100/50 hover:bg-amber-100 px-4 py-2 rounded-full transition-colors">
+                    <span>📱 填寫不順？點此開啟全螢幕視窗填寫表單</span>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- 頁尾 -->
+        <div class="text-center text-xs text-gray-400 py-4">
+            &copy; 2026 鍋好日大魯閣新時代. All rights reserved.
+        </div>
+
+    </div>
+
+</body>
+</html>
