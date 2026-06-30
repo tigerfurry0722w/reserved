@@ -6,158 +6,222 @@
     <title>麒太的狐思亂想</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
         body { font-family: 'Noto Sans TC', sans-serif; }
         .btn-active { background-color: #3b82f6 !important; color: white !important; }
+        .text-repost { color: #8b5cf6 !important; } 
+        .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .hover-card:hover { transform: translateY(-2px); transition: transform 0.2s; }
     </style>
 </head>
-<body class="bg-white min-h-screen">
+<body class="bg-slate-50 min-h-screen">
 
-    <header class="border-b border-gray-200 py-6 px-4 md:px-8">
-        <h1 class="text-2xl font-medium text-slate-800">麒太的狐思亂想</h1>
+    <header class="bg-white border-b border-gray-200 py-8 px-4 md:px-8 sticky top-0 z-10">
+        <div class="max-w-2xl mx-auto">
+            <h1 class="text-3xl font-bold text-slate-800">麒太的狐思亂想</h1>
+            <p class="text-slate-500 mt-2 text-sm">在這裡記錄一點點狐思亂想的痕跡。</p>
+        </div>
     </header>
 
-    <main class="max-w-2xl py-6 px-4 md:px-8">
+    <main class="max-w-2xl mx-auto py-8 px-4 md:px-8">
         
-        <div class="flex flex-wrap gap-2 mb-8" id="filter-nav">
-            <!-- 平台篩選 -->
-            <button onclick="setFilter('platform', '全部', this)" class="filter-btn-platform px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm btn-active">全部(平台)</button>
-            <button onclick="setFilter('platform', 'YT', this)" class="filter-btn-platform px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm">YT</button>
-            <button onclick="setFilter('platform', '本站', this)" class="filter-btn-platform px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm">本站</button>
-            <button onclick="setFilter('platform', 'threads', this)" class="filter-btn-platform px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm">threads</button>
+        <div class="mb-8">
+            <input type="text" id="search-input" oninput="applyFilters()" placeholder="搜尋標題或簡介..." class="w-full px-5 py-3 border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 outline-none mb-6">
+            
+            <div class="flex flex-wrap gap-2" id="filter-nav">
+                <button onclick="setFilter('platform', '全部', this)" class="filter-btn-platform px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm btn-active transition-all">全部(平台)</button>
+                <button onclick="setFilter('platform', 'YT', this)" class="filter-btn-platform px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">YT</button>
+                <button onclick="setFilter('platform', 'FB', this)" class="filter-btn-platform px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">FB</button>
+                <button onclick="setFilter('platform', 'bilibili', this)" class="filter-btn-platform px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">bilibili</button>
+                <button onclick="setFilter('platform', '本站', this)" class="filter-btn-platform px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">本站</button>
+                <button onclick="setFilter('platform', 'x(twitter)', this)" class="filter-btn-platform px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">x(twitter)</button>
+                <button onclick="setFilter('platform', 'threads', this)" class="filter-btn-platform px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">threads</button>
+                <button onclick="setFilter('platform', 'IG', this)" class="filter-btn-platform px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">IG</button>
+                <button onclick="setFilter('platform', '其他', this)" class="filter-btn-platform px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">其他</button>
+                
+                <div class="w-full border-t border-gray-200 my-2"></div>
+                
+                <button onclick="setFilter('source', '全部', this)" class="filter-btn-source px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm btn-active transition-all">全部(來源)</button>
+                <button onclick="setFilter('source', '原創', this)" class="filter-btn-source px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">原創</button>
+                <button onclick="setFilter('source', '轉載', this)" class="filter-btn-source px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">轉載</button>
+            </div>
 
-            <!-- 狀態篩選 -->
-            <button onclick="setFilter('status', '全部', this)" class="filter-btn-status px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm border border-gray-300 btn-active">全部(狀態)</button>
-            <button onclick="setFilter('status', '正常', this)" class="filter-btn-status px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm border border-gray-300">正常</button>
-            <button onclick="setFilter('status', '無法訪問', this)" class="filter-btn-status px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm border border-gray-300">無法訪問</button>
-
-            <!-- 來源篩選 -->
-            <button onclick="setFilter('source', '全部', this)" class="filter-btn-source px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm border border-gray-300 btn-active">全部(來源)</button>
-            <button onclick="setFilter('source', '原創', this)" class="filter-btn-source px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm border border-gray-300">原創</button>
-            <button onclick="setFilter('source', '轉載', this)" class="filter-btn-source px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm border border-gray-300">轉載</button>
-
-            <!-- 密碼篩選 -->
-            <button onclick="setFilter('password', '全部', this)" class="filter-btn-password px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm border border-gray-300 btn-active">全部(密碼)</button>
-            <button onclick="setFilter('password', '需要密碼', this)" class="filter-btn-password px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm border border-gray-300">需要密碼</button>
-            <button onclick="setFilter('password', '不需要密碼', this)" class="filter-btn-password px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm border border-gray-300">不需要密碼</button>
-        </div>
-
-        <!-- 貼文列表 -->
-        <article class="post-item mb-6" data-platform="本站" data-status="無法訪問" data-source="原創" data-locked="false">
-            <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-xl text-blue-700 hover:underline block font-medium">無法訪問</a>
-            <p class="text-sm text-gray-500 mt-1">發布者:admin 發布時間:2026/06/30 15:02 簡介:無 發布平台:本站</p>
-        </article>
-
-        <article class="post-item mb-6" data-platform="本站" data-status="正常" data-source="原創" data-locked="false">
-            <a href="javascript:void(0)" onclick="handlePostClick(event)" data-url="https://sites.google.com/view/tcblog260516/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5" class="text-xl text-blue-700 hover:underline block font-medium">溪湖糖廠糖業小火車 下次還來!!</a>
-            <p class="text-sm text-gray-500 mt-1">發布者:admin 發布時間:2026/06/30 15:02 簡介:無 發布平台:本站</p>
-        </article>
-
-        <article class="post-item mb-6" data-platform="YT" data-status="正常" data-source="轉載" data-locked="false">
-            <a href="javascript:void(0)" onclick="handlePostClick(event)" data-url="https://www.youtube.com/shorts/zEmdVRD1cp4" class="text-xl text-purple-700 hover:underline block font-medium">誰急眼誰扣錢</a>
-            <p class="text-sm text-gray-500 mt-1">發布者:admin 發布時間:2026/06/30 15:38 簡介:哈哈哈 發布平台:YT (您即將離開本站)</p>
-        </article>
-
-        <article class="post-item mb-6" data-platform="threads" data-status="正常" data-source="轉載" data-locked="false">
-            <a href="javascript:void(0)" onclick="handlePostClick(event)" data-url="https://www.threads.com/@_nxiangn_/post/DaMcGhWj154?xmt=AQG0ZYGlwuHqd264TfQc4lzekugyuJ4At5tCLdzN45N80A" class="text-xl text-purple-700 hover:underline block font-medium">家樂福改名!?</a>
-            <p class="text-sm text-gray-500 mt-1">發布者:admin 發布時間:2026/06/30 16:07 簡介:就跟新時代一樣的道理 發布平台:threads (您即將離開本站)</p>
-        </article>
-
-        <!-- Modals -->
-        <div id="info-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
-                <h3 class="text-lg font-medium mb-4">提示</h3>
-                <p class="text-gray-700 mb-6">很遺憾 您無法訪問此頁面 可能是您的權限不足導致/該頁面已損壞/或該頁面已被刪除</p>
-                <div class="flex justify-end"><button onclick="closeModal('info-modal')" class="px-4 py-2 bg-blue-600 text-white rounded">關閉</button></div>
+            <div class="mt-4">
+                <label class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-full text-sm cursor-pointer hover:border-blue-400 w-fit">
+                    <input type="checkbox" id="hide-logs" onchange="applyFilters()" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+                    <span>隱藏所有更新日誌</span>
+                </label>
             </div>
         </div>
 
-        <div id="password-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
-                <h3 class="text-lg font-medium mb-4">輸入密碼</h3>
-                <input type="password" id="password-input" class="w-full border border-gray-300 rounded p-2 mb-4" placeholder="請輸入密碼">
-                <div class="flex justify-end gap-2">
-                    <button onclick="closeModal('password-modal')" class="px-4 py-2 bg-gray-200 rounded">取消</button>
-                    <button onclick="checkPassword()" class="px-4 py-2 bg-blue-600 text-white rounded">確認</button>
+        <div id="posts-container" class="space-y-4">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-url="https://sites.google.com/view/v0-1-1/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+                <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v0.1.1</a>
+                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 21:01 | 平台:本站</p>
+            </article>
+
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-url="https://sites.google.com/view/tcblog260516/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+                <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">溪湖糖廠糖業小火車 下次還來!!</a>
+                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 15:02 | 平台:本站</p>
+            </article>
+
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="YT" data-source="repost" data-url="https://www.youtube.com/shorts/zEmdVRD1cp4">
+                <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-repost hover:underline block">誰急眼誰扣錢</a>
+                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 15:38 | 平台:YT (轉載)</p>
+            </article>
+
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="threads" data-source="repost" data-url="https://www.threads.com/@_nxiangn_/post/DaMcGhWj154?xmt=AQG0ZYGlwuHqd264TfQc4lzekugyuJ4At5tCLdzN45N80A">
+                <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-repost hover:underline block">家樂福改名!?</a>
+                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 16:07 | 平台:threads (轉載)</p>
+            </article>
+        </div>
+
+        <div id="no-results" class="hidden text-center py-16 text-gray-400 font-medium">這裡什麼都木有</div>
+
+        <div id="password-modal" class="hidden fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+            <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-sm">
+                <h3 class="text-xl font-bold mb-5 text-slate-800">警衛室驗證</h3>
+                <input type="password" id="password-input" class="w-full border border-gray-200 rounded-xl px-4 py-3 mb-4 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="請輸入密碼">
+                <div class="flex justify-end gap-3">
+                    <button onclick="closeModal()" class="px-5 py-2 text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 transition">取消</button>
+                    <button onclick="checkPassword()" class="px-5 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition">確認</button>
                 </div>
-                <p id="error-msg" class="text-red-500 text-sm mt-2 hidden">密碼錯誤</p>
+                <p id="error-msg" class="text-red-500 text-sm mt-4 hidden text-center">密碼錯誤</p>
             </div>
         </div>
 
-        <div id="processing-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm text-center">
-                <p class="text-lg font-medium">連結處理中，請稍後...</p>
+        <div id="management-panel" class="hidden fixed inset-0 bg-white z-50 p-6 md:p-12 overflow-auto">
+            <div class="max-w-2xl mx-auto">
+                <div class="flex justify-between items-center mb-10 border-b pb-6">
+                    <h2 class="text-3xl font-bold text-slate-800">警衛室</h2>
+                    <button onclick="closeManagement()" class="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg text-sm text-gray-600">關閉</button>
+                </div>
+                <div class="space-y-4">
+                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="管理員限定" data-source="original" data-url="https://github.com/tigerfurry0722w/reserved">
+                        <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">網頁後台 (GitHub)</a>
+                        <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 21:01 | 平台:管理員限定</p>
+                    </article>
+                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="管理員限定" data-source="original" data-url="https://sites.google.com/u/0/new/?authuser=0">
+                        <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">貼文後台 (Google Sites)</a>
+                        <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 21:01 | 平台:管理員限定</p>
+                    </article>
+                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="管理員限定" data-source="original" data-url="https://gemini.google.com/u/2/app/7a0fe69848e5a869?pageId=none">
+                        <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">介面後台</a>
+                        <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 21:01 | 平台:管理員限定</p>
+                    </article>
+                </div>
+            </div>
+        </div>
+
+        <div id="processing-modal" class="hidden fixed inset-0 bg-white bg-opacity-80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+            <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-sm text-center">
+                <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <p class="text-lg font-medium text-slate-800 mb-6">網頁處理中，請稍後</p>
+                <button onclick="cancelProcessing()" class="w-full px-5 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition">取消</button>
             </div>
         </div>
 
         <script>
             let targetUrl = '';
-            let filters = { platform: '全部', status: '全部', source: '全部', password: '全部' };
+            let targetPlatform = ''; 
+            let currentPlatform = '全部';
+            let currentSourceFilter = '全部';
+            let processingTimeout;
 
             function setFilter(type, value, btn) {
-                filters[type] = value;
-                document.querySelectorAll(`.filter-btn-${type}`).forEach(b => b.classList.remove('btn-active'));
+                if (type === 'platform') {
+                    currentPlatform = value;
+                    document.querySelectorAll('.filter-btn-platform').forEach(b => b.classList.remove('btn-active'));
+                } else {
+                    currentSourceFilter = value;
+                    document.querySelectorAll('.filter-btn-source').forEach(b => b.classList.remove('btn-active'));
+                }
                 btn.classList.add('btn-active');
                 applyFilters();
             }
 
             function applyFilters() {
-                const posts = document.querySelectorAll('.post-item');
+                const query = document.getElementById('search-input').value.toLowerCase();
+                const hideLogs = document.getElementById('hide-logs').checked;
+                const posts = document.querySelectorAll('#posts-container .post-item');
+                let visibleCount = 0;
+                
                 posts.forEach(post => {
-                    const p = post.getAttribute('data-platform');
-                    const s = post.getAttribute('data-status');
-                    const src = post.getAttribute('data-source');
-                    const isLocked = post.getAttribute('data-locked') === 'true';
+                    const title = post.querySelector('a').textContent.toLowerCase();
+                    const platform = post.getAttribute('data-platform');
+                    const source = post.getAttribute('data-source');
 
-                    const mP = (filters.platform === '全部' || p === filters.platform);
-                    const mS = (filters.status === '全部' || s === filters.status);
-                    const mSrc = (filters.source === '全部' || src === filters.source);
-                    const mPwd = (filters.password === '全部' || 
-                                  (filters.password === '需要密碼' && isLocked) || 
-                                  (filters.password === '不需要密碼' && !isLocked));
+                    const isLog = title.includes('更新日誌');
+                    if (hideLogs && isLog) {
+                        post.classList.add('hidden');
+                        return;
+                    }
 
-                    if (mP && mS && mSrc && mPwd) post.classList.remove('hidden');
-                    else post.classList.add('hidden');
+                    const matchSearch = (title.includes(query));
+                    const matchPlatform = (currentPlatform === '全部' || platform === currentPlatform);
+                    const matchSource = (currentSourceFilter === '全部' || 
+                                         (currentSourceFilter === '原創' && source === 'original') || 
+                                         (currentSourceFilter === '轉載' && source === 'repost'));
+
+                    if (matchSearch && matchPlatform && matchSource) {
+                        post.classList.remove('hidden');
+                        visibleCount++;
+                    } else {
+                        post.classList.add('hidden');
+                    }
                 });
+
+                document.getElementById('no-results').classList.toggle('hidden', visibleCount > 0);
             }
 
             function handlePostClick(event) {
                 const link = event.target;
                 const article = link.closest('.post-item');
-                const status = article.getAttribute('data-status');
-                const isLocked = article.getAttribute('data-locked') === 'true';
+                if(!article) return;
+                
                 targetUrl = article.getAttribute('data-url');
+                targetPlatform = article.getAttribute('data-platform');
+                showProcessing();
+            }
 
-                if (status === '無法訪問') {
-                    document.getElementById('info-modal').classList.remove('hidden');
-                } else if (isLocked) {
-                    document.getElementById('password-modal').classList.remove('hidden');
-                } else if (targetUrl) {
-                    showProcessing();
-                }
+            function openManagement() {
+                document.getElementById('password-modal').classList.remove('hidden');
+            }
+
+            function closeManagement() {
+                document.getElementById('management-panel').classList.add('hidden');
             }
 
             function showProcessing() {
                 document.getElementById('processing-modal').classList.remove('hidden');
-                setTimeout(() => {
-                    window.open(targetUrl, '_blank');
+                processingTimeout = setTimeout(() => {
+                    if (targetUrl) {
+                        if (targetPlatform === '本站') {
+                            window.open(targetUrl, '_self');
+                        } else {
+                            window.open(targetUrl, '_blank');
+                        }
+                    }
                     document.getElementById('processing-modal').classList.add('hidden');
-                }, 1000);
+                }, 1200);
             }
 
-            function closeModal(id) {
-                document.getElementById(id).classList.add('hidden');
-                if(id === 'password-modal') {
-                    document.getElementById('password-input').value = '';
-                    document.getElementById('error-msg').classList.add('hidden');
-                }
+            function cancelProcessing() {
+                clearTimeout(processingTimeout);
+                document.getElementById('processing-modal').classList.add('hidden');
+            }
+
+            function closeModal() {
+                document.getElementById('password-modal').classList.add('hidden');
+                document.getElementById('password-input').value = '';
+                document.getElementById('error-msg').classList.add('hidden');
             }
 
             function checkPassword() {
                 const input = document.getElementById('password-input').value;
-                if (input === '1234') {
-                    closeModal('password-modal');
-                    showProcessing();
+                if (input === '548700') {
+                    closeModal();
+                    document.getElementById('management-panel').classList.remove('hidden');
                 } else {
                     document.getElementById('error-msg').classList.remove('hidden');
                 }
@@ -165,8 +229,11 @@
         </script>
     </main>
 
-    <footer class="text-start py-8 px-4 md:px-8 text-slate-400 text-sm border-t border-gray-100 mt-12">
-        <p>© 2026 麒太的狐思亂想</p>
+    <footer class="text-center py-12 px-4 text-slate-400 text-sm">
+        <p class="mb-4">不准跨過我的底線 不然我要重畫一條!</p>
+        <button onclick="openManagement()" class="hover:text-blue-500 transition underline">警衛室</button>
+        <p class="text-xs text-slate-400 mt-2">v0.1.1</p>
     </footer>
+
 </body>
 </html>
