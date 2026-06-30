@@ -29,21 +29,8 @@
             <input type="text" id="search-input" oninput="applyFilters()" placeholder="搜尋標題或簡介..." class="w-full px-5 py-3 border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 outline-none mb-6">
             
             <div class="flex flex-wrap gap-2" id="filter-nav">
-                <button onclick="setFilter('platform', '全部', this)" class="filter-btn-platform px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm btn-active transition-all">全部(平台)</button>
-                <button onclick="setFilter('platform', 'YT', this)" class="filter-btn-platform px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">YT</button>
-                <button onclick="setFilter('platform', 'FB', this)" class="filter-btn-platform px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">FB</button>
-                <button onclick="setFilter('platform', 'bilibili', this)" class="filter-btn-platform px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">bilibili</button>
-                <button onclick="setFilter('platform', '本站', this)" class="filter-btn-platform px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">本站</button>
-                <button onclick="setFilter('platform', 'x(twitter)', this)" class="filter-btn-platform px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">x(twitter)</button>
-                <button onclick="setFilter('platform', 'threads', this)" class="filter-btn-platform px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">threads</button>
-                <button onclick="setFilter('platform', 'IG', this)" class="filter-btn-platform px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">IG</button>
-                <button onclick="setFilter('platform', '其他', this)" class="filter-btn-platform px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">其他</button>
-                
-                <div class="w-full border-t border-gray-200 my-2"></div>
-                
-                <button onclick="setFilter('source', '全部', this)" class="filter-btn-source px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm btn-active transition-all">全部(來源)</button>
-                <button onclick="setFilter('source', '原創', this)" class="filter-btn-source px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">原創</button>
-                <button onclick="setFilter('source', '轉載', this)" class="filter-btn-source px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">轉載</button>
+                <button onclick="setFilter('貼文', this)" class="filter-btn px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm btn-active transition-all">貼文</button>
+                <button onclick="setFilter('書籤', this)" class="filter-btn px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">書籤</button>
             </div>
 
             <div class="mt-4">
@@ -55,6 +42,11 @@
         </div>
 
         <div id="posts-container" class="space-y-4">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-url="https://sites.google.com/view/v1-0-0myblog/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+                <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v1.0.0</a>
+                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 21:44 | 平台:本站</p>
+            </article>
+
             <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-url="https://sites.google.com/view/v0-1-1/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v0.1.1</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 21:01 | 平台:本站</p>
@@ -124,18 +116,15 @@
         <script>
             let targetUrl = '';
             let targetPlatform = ''; 
-            let currentPlatform = '全部';
-            let currentSourceFilter = '全部';
+            let currentFilter = '貼文'; // 預設狀態
             let processingTimeout;
 
-            function setFilter(type, value, btn) {
-                if (type === 'platform') {
-                    currentPlatform = value;
-                    document.querySelectorAll('.filter-btn-platform').forEach(b => b.classList.remove('btn-active'));
-                } else {
-                    currentSourceFilter = value;
-                    document.querySelectorAll('.filter-btn-source').forEach(b => b.classList.remove('btn-active'));
-                }
+            // 初始化：預設執行一次篩選
+            window.onload = () => applyFilters();
+
+            function setFilter(value, btn) {
+                currentFilter = value;
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('btn-active'));
                 btn.classList.add('btn-active');
                 applyFilters();
             }
@@ -158,12 +147,16 @@
                     }
 
                     const matchSearch = (title.includes(query));
-                    const matchPlatform = (currentPlatform === '全部' || platform === currentPlatform);
-                    const matchSource = (currentSourceFilter === '全部' || 
-                                         (currentSourceFilter === '原創' && source === 'original') || 
-                                         (currentSourceFilter === '轉載' && source === 'repost'));
+                    
+                    // 根據新條件篩選
+                    let matchType = false;
+                    if (currentFilter === '貼文') {
+                        matchType = (platform === '本站');
+                    } else if (currentFilter === '書籤') {
+                        matchType = (source === 'repost');
+                    }
 
-                    if (matchSearch && matchPlatform && matchSource) {
+                    if (matchSearch && matchType) {
                         post.classList.remove('hidden');
                         visibleCount++;
                     } else {
@@ -232,7 +225,7 @@
     <footer class="text-center py-12 px-4 text-slate-400 text-sm">
         <p class="mb-4">不准跨過我的底線 不然我要重畫一條!</p>
         <button onclick="openManagement()" class="hover:text-blue-500 transition underline">警衛室</button>
-        <p class="text-xs text-slate-400 mt-2">v0.1.1</p>
+        <p class="text-xs text-slate-400 mt-2">v1.0.0</p>
     </footer>
 
 </body>
