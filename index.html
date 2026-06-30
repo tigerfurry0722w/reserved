@@ -8,6 +8,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap');
         body { font-family: 'Noto Sans TC', sans-serif; }
+        .btn-active { background-color: #3b82f6 !important; color: white !important; }
     </style>
 </head>
 <body class="bg-white min-h-screen">
@@ -18,18 +19,132 @@
 
     <main class="max-w-2xl py-6 px-4 md:px-8">
         
-        <!-- Post Item -->
-        <article class="mb-6">
-            <a href="https://sites.google.com/view/tcblog/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5" class="text-xl text-blue-700 hover:underline block font-medium">404</a>
-            <p class="text-sm text-gray-500 mt-1">發布者:admin 發布時間:2026/06/30 15:02 簡介:無</p>
+        <div class="flex flex-wrap gap-2 mb-8" id="filter-nav">
+            <button onclick="setFilter('platform', '全部', this)" class="filter-btn-platform px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm btn-active">全部(平台)</button>
+            <button onclick="setFilter('platform', 'YT', this)" class="filter-btn-platform px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm">YT</button>
+            <button onclick="setFilter('platform', 'FB', this)" class="filter-btn-platform px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm">FB</button>
+            <button onclick="setFilter('platform', 'bilibili', this)" class="filter-btn-platform px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm">bilibili</button>
+            <button onclick="setFilter('platform', '本站', this)" class="filter-btn-platform px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm">本站</button>
+            <button onclick="setFilter('platform', 'x(twitter)', this)" class="filter-btn-platform px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm">x(twitter)</button>
+            <button onclick="setFilter('platform', 'threads', this)" class="filter-btn-platform px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm">threads</button>
+            <button onclick="setFilter('platform', 'IG', this)" class="filter-btn-platform px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm">IG</button>
+            <button onclick="setFilter('platform', '其他', this)" class="filter-btn-platform px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm">其他</button>
+            
+            <button onclick="setFilter('password', '全部', this)" class="filter-btn-password px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm border border-gray-300 btn-active">全部(密碼)</button>
+            <button onclick="setFilter('password', '需要密碼', this)" class="filter-btn-password px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm border border-gray-300">需要密碼</button>
+            <button onclick="setFilter('password', '不需要密碼', this)" class="filter-btn-password px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm border border-gray-300">不需要密碼</button>
+        </div>
+
+        <article class="post-item mb-6" data-platform="本站" data-locked="true" data-url="https://sites.google.com/view/tcblog/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-xl text-blue-700 hover:underline block font-medium">404</a>
+            <p class="text-sm text-gray-500 mt-1">發布者:admin 發布時間:2026/06/30 15:02 簡介:無 發布平台:本站</p>
         </article>
 
-        <!-- Post Item: 溪湖糖廠 -->
-        <article class="mb-6">
-            <a href="https://sites.google.com/view/tcblog260516/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5" class="text-xl text-blue-700 hover:underline block font-medium">溪湖糖廠糖業小火車 下次還來!!</a>
-            <p class="text-sm text-gray-500 mt-1">發布者:admin 發布時間:2026年6月30日 簡介:無</p>
+        <article class="post-item mb-6" data-platform="本站">
+            <a href="javascript:void(0)" onclick="handlePostClick(event)" data-url="https://sites.google.com/view/tcblog260516/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5" class="text-xl text-blue-700 hover:underline block font-medium">溪湖糖廠糖業小火車 下次還來!!</a>
+            <p class="text-sm text-gray-500 mt-1">發布者:admin 發布時間:2026/06/30 15:02 簡介:無 發布平台:本站</p>
         </article>
 
+        <article class="post-item mb-6" data-platform="YT">
+            <a href="javascript:void(0)" onclick="handlePostClick(event)" data-url="https://www.youtube.com/shorts/zEmdVRD1cp4" class="text-xl text-blue-700 hover:underline block font-medium">誰急眼誰扣錢</a>
+            <p class="text-sm text-gray-500 mt-1">發布者:admin 發布時間:2026/06/30 15:38 簡介:哈哈哈 發布平台:YT (您即將離開本站)</p>
+        </article>
+
+        <article class="post-item mb-6" data-platform="threads">
+            <a href="javascript:void(0)" onclick="handlePostClick(event)" data-url="https://www.threads.com/@_nxiangn_/post/DaMcGhWj154?xmt=AQG0ZYGlwuHqd264TfQc4lzekugyuJ4At5tCLdzN45N80A" class="text-xl text-blue-700 hover:underline block font-medium">家樂福改名!?</a>
+            <p class="text-sm text-gray-500 mt-1">發布者:admin 發布時間:2026/06/30 16:07 簡介:就跟新時代一樣的道理 發布平台:threads (您即將離開本站)</p>
+        </article>
+
+        <div id="password-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
+                <h3 class="text-lg font-medium mb-4">輸入密碼</h3>
+                <input type="password" id="password-input" class="w-full border border-gray-300 rounded p-2 mb-4" placeholder="請輸入密碼">
+                <div class="flex justify-end gap-2">
+                    <button onclick="closeModal()" class="px-4 py-2 bg-gray-200 rounded">取消</button>
+                    <button onclick="checkPassword()" class="px-4 py-2 bg-blue-600 text-white rounded">確認</button>
+                </div>
+                <p id="error-msg" class="text-red-500 text-sm mt-2 hidden">密碼錯誤</p>
+            </div>
+        </div>
+
+        <div id="processing-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm text-center">
+                <p class="text-lg font-medium">連結處理中，請稍後...</p>
+            </div>
+        </div>
+
+        <script>
+            let targetUrl = '';
+            let currentPlatform = '全部';
+            let currentPasswordFilter = '全部';
+
+            function setFilter(type, value, btn) {
+                if (type === 'platform') {
+                    currentPlatform = value;
+                    document.querySelectorAll('.filter-btn-platform').forEach(b => b.classList.remove('btn-active'));
+                } else {
+                    currentPasswordFilter = value;
+                    document.querySelectorAll('.filter-btn-password').forEach(b => b.classList.remove('btn-active'));
+                }
+                btn.classList.add('btn-active');
+                applyFilters();
+            }
+
+            function applyFilters() {
+                const posts = document.querySelectorAll('.post-item');
+                posts.forEach(post => {
+                    const platform = post.getAttribute('data-platform');
+                    const isLocked = post.getAttribute('data-locked') === 'true';
+
+                    const matchPlatform = (currentPlatform === '全部' || platform === currentPlatform);
+                    const matchPassword = (currentPasswordFilter === '全部' || 
+                                          (currentPasswordFilter === '需要密碼' && isLocked) || 
+                                          (currentPasswordFilter === '不需要密碼' && !isLocked));
+
+                    if (matchPlatform && matchPassword) {
+                        post.classList.remove('hidden');
+                    } else {
+                        post.classList.add('hidden');
+                    }
+                });
+            }
+
+            function handlePostClick(event) {
+                const link = event.target;
+                const article = link.closest('.post-item');
+                targetUrl = article.getAttribute('data-url') || link.getAttribute('data-url');
+
+                if (article.getAttribute('data-locked') === 'true') {
+                    document.getElementById('password-modal').classList.remove('hidden');
+                } else {
+                    showProcessing();
+                }
+            }
+
+            function showProcessing() {
+                document.getElementById('processing-modal').classList.remove('hidden');
+                setTimeout(() => {
+                    window.open(targetUrl, '_blank');
+                    document.getElementById('processing-modal').classList.add('hidden');
+                }, 1500);
+            }
+
+            function closeModal() {
+                document.getElementById('password-modal').classList.add('hidden');
+                document.getElementById('password-input').value = '';
+                document.getElementById('error-msg').classList.add('hidden');
+            }
+
+            function checkPassword() {
+                const input = document.getElementById('password-input').value;
+                if (input === '1234') {
+                    closeModal();
+                    showProcessing();
+                } else {
+                    document.getElementById('error-msg').classList.remove('hidden');
+                }
+            }
+        </script>
     </main>
 
     <footer class="text-start py-8 px-4 md:px-8 text-slate-400 text-sm border-t border-gray-100 mt-12">
