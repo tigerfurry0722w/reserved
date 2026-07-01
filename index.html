@@ -120,18 +120,21 @@
         <div id="management-panel" class="hidden fixed inset-0 bg-white z-50 p-6 md:p-12 overflow-auto">
             <div class="max-w-2xl mx-auto">
                 <div class="flex justify-between items-center mb-10 border-b pb-6">
-                    <h2 class="text-3xl font-bold text-slate-800">警衛室</h2>
+                    <h2 class="text-3xl font-bold text-slate-800">隱藏的貼文</h2>
                     <button onclick="closeManagement()" class="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg text-sm text-gray-600">關閉</button>
                 </div>
                 <div class="space-y-4">
+                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-url="https://sites.google.com/view/furrystickers/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5" data-platform="external">
+                        <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">貼圖存放</a>
+                        <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/01 | 資料夾:隱藏的貼文</p>
+                    </article>
                     <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-url="https://github.com/tigerfurry0722w/reserved" data-platform="external">
-                        <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">網頁後台 (GitHub)</a>
+                        <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">首頁後台</a>
+                        <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/01 | 資料夾:隱藏的貼文</p>
                     </article>
-                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-url="https://sites.google.com/u/0/new/?authuser=0" data-platform="external">
-                        <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">貼文後台 (Google Sites)</a>
-                    </article>
-                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-url="https://gemini.google.com/u/2/app/7a0fe69848e5a869?pageId=none" data-platform="external">
-                        <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">介面後台</a>
+                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-url="https://sites.google.com" data-platform="external">
+                        <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">貼文後台</a>
+                        <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/01 | 資料夾:隱藏的貼文</p>
                     </article>
                 </div>
             </div>
@@ -234,7 +237,7 @@
                 
                 modal.classList.remove('hidden');
                 
-                // 重置所有類別與狀態
+                // 重置動畫類別
                 stickman.classList.remove('animate-walk-in', 'animate-walk-out');
                 bulb.classList.remove('animate-glow');
                 handle.classList.remove('animate-pull');
@@ -253,7 +256,7 @@
                 }, 1500);
 
                 setTimeout(() => {
-                    if (targetUrl) {
+                    if (targetUrl && targetUrl !== '#') {
                         if (targetPlatform === 'external') window.open(targetUrl, '_blank');
                         else window.location.href = targetUrl;
                     }
@@ -264,7 +267,7 @@
     </main>
 
     <footer class="text-center py-12 px-4 text-slate-400 text-sm">
-        <p class="mb-4">不准跨過我的底線 不然我要重畫一條!</p>
+        <p class="mb-4">不准跨過我的底線 不然 V1.3.0 也要重畫一條!</p>
         <p class="text-xs text-slate-400 mt-2">v1.3.0</p>
     </footer>
 </body>
