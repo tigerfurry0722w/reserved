@@ -25,51 +25,72 @@
 
     <main class="max-w-2xl mx-auto py-8 px-4 md:px-8">
         
-        <div class="mb-8">
-            <input type="text" id="search-input" oninput="applyFilters()" placeholder="搜尋標題或簡介..." class="w-full px-5 py-3 border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 outline-none mb-6">
-            
-            <div class="flex flex-wrap gap-2" id="filter-nav">
-                <button onclick="setFilter('貼文', this)" class="filter-btn px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm btn-active transition-all">貼文</button>
-                <button onclick="setFilter('書籤', this)" class="filter-btn px-4 py-1.5 bg-white border border-gray-200 hover:border-blue-400 rounded-full text-sm transition-all">書籤</button>
+        <div class="mb-8 p-4 bg-white border border-gray-200 rounded-2xl shadow-sm">
+            <div class="flex items-center w-full border border-gray-200 rounded-xl bg-gray-50 overflow-hidden mb-4">
+                <input type="text" id="search-input" oninput="applyFilters()" placeholder="搜尋標題或簡介..." class="flex-1 px-5 py-3 outline-none bg-transparent">
+                <div class="border-l border-gray-200 px-3 bg-white">
+                    <input type="date" id="date-input" onchange="applyFilters()" class="py-2 bg-transparent outline-none text-gray-400 text-sm cursor-pointer">
+                </div>
             </div>
 
-            <div class="mt-4">
-                <label class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-full text-sm cursor-pointer hover:border-blue-400 w-fit">
-                    <input type="checkbox" id="hide-logs" onchange="applyFilters()" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+            <div class="space-y-3">
+                <div class="flex flex-wrap gap-2 items-center" id="type-filter-nav">
+                    <span class="text-xs text-gray-400 mr-1 uppercase">類型:</span>
+                    <button onclick="setTypeFilter('貼文', this)" class="type-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm btn-active transition-all">貼文</button>
+                    <button onclick="setTypeFilter('書籤', this)" class="type-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">書籤</button>
+                </div>
+                <div class="flex flex-wrap gap-2 items-center" id="folder-filter-nav">
+                    <span class="text-xs text-gray-400 mr-1 uppercase">目錄:</span>
+                    <button onclick="setFolderFilter('全部貼文', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm btn-active transition-all">全部貼文</button>
+                    <button onclick="setFolderFilter('上班日的碎碎念', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">上班日的碎碎念</button>
+                    <button onclick="setFolderFilter('周末的愉快時光', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">周末的愉快時光</button>
+                    <button onclick="setFolderFilter('香港之旅', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">香港之旅</button>
+                    <button onclick="setFolderFilter('更新日誌', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">更新日誌</button>
+                </div>
+            </div>
+
+            <div class="mt-4 pt-4 border-t border-gray-100" id="log-filter-container">
+                <label class="flex items-center gap-2 text-sm cursor-pointer text-gray-600 hover:text-blue-600 w-fit">
+                    <input type="checkbox" id="hide-logs" onchange="applyFilters()" class="w-4 h-4 text-blue-600 rounded">
                     <span>隱藏所有更新日誌</span>
                 </label>
             </div>
         </div>
 
         <div id="posts-container" class="space-y-4">
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-url="https://sites.google.com/view/v1-0-0myblog/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v1-2-0/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+                <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v1.2.0</a>
+                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:更新日誌</p>
+            </article>
+
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v1-0-0myblog/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v1.0.0</a>
-                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 21:44 | 平台:本站</p>
+                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:更新日誌</p>
             </article>
 
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-url="https://sites.google.com/view/v0-1-1/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v0-1-1/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v0.1.1</a>
-                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 21:01 | 平台:本站</p>
+                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:更新日誌</p>
             </article>
 
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="threads" data-source="repost" data-url="https://www.threads.com/@_nxiangn_/post/DaMcGhWj154?xmt=AQG0ZYGlwuHqd264TfQc4lzekugyuJ4At5tCLdzN45N80A">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="threads" data-source="repost" data-folder="上班日的碎碎念" data-date="2026-06-30" data-url="https://www.threads.com/@_nxiangn_/post/DaMcGhWj154?xmt=AQG0ZYGlwuHqd264TfQc4lzekugyuJ4At5tCLdzN45N80A">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-repost hover:underline block">家樂福改名!?</a>
-                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 16:07 | 平台:threads (轉載)</p>
+                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:上班日的碎碎念</p>
             </article>
 
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="YT" data-source="repost" data-url="https://www.youtube.com/shorts/zEmdVRD1cp4">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="YT" data-source="repost" data-folder="周末的愉快時光" data-date="2026-06-30" data-url="https://www.youtube.com/shorts/zEmdVRD1cp4">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-repost hover:underline block">誰急眼誰扣錢</a>
-                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 15:38 | 平台:YT (轉載)</p>
+                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:周末的愉快時光</p>
             </article>
 
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-url="https://sites.google.com/view/tcblog260516/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-folder="周末的愉快時光" data-date="2026-06-30" data-url="https://sites.google.com/view/tcblog260516/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">溪湖糖廠糖業小火車 下次還來!!</a>
-                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 15:02 | 平台:本站</p>
+                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:周末的愉快時光</p>
             </article>
 
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-url="https://sites.google.com/view/welocometohongkong/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-folder="香港之旅" data-date="2026-04-15" data-url="https://sites.google.com/view/welocometohongkong/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">期待已久的香港之旅!~</a>
-                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/04/15 10:00 | 平台:本站</p>
+                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/04/15 | 資料夾:香港之旅</p>
             </article>
         </div>
 
@@ -94,17 +115,17 @@
                     <button onclick="closeManagement()" class="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg text-sm text-gray-600">關閉</button>
                 </div>
                 <div class="space-y-4">
-                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="管理員限定" data-source="original" data-url="https://github.com/tigerfurry0722w/reserved">
-                        <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">網頁後台 (GitHub)</a>
-                        <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 21:01 | 平台:管理員限定</p>
+                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all">
+                        <a href="https://github.com/tigerfurry0722w/reserved" target="_blank" class="text-lg font-semibold text-blue-700 hover:underline block">網頁後台 (GitHub)</a>
+                        <p class="text-xs text-gray-400 mt-2">發布者:admin</p>
                     </article>
-                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="管理員限定" data-source="original" data-url="https://sites.google.com/u/0/new/?authuser=0">
-                        <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">貼文後台 (Google Sites)</a>
-                        <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 21:01 | 平台:管理員限定</p>
+                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all">
+                        <a href="https://sites.google.com/u/0/new/?authuser=0" target="_blank" class="text-lg font-semibold text-blue-700 hover:underline block">貼文後台 (Google Sites)</a>
+                        <p class="text-xs text-gray-400 mt-2">發布者:admin</p>
                     </article>
-                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="管理員限定" data-source="original" data-url="https://gemini.google.com/u/2/app/7a0fe69848e5a869?pageId=none">
-                        <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">介面後台</a>
-                        <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 21:01 | 平台:管理員限定</p>
+                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all">
+                        <a href="https://gemini.google.com/u/2/app/7a0fe69848e5a869?pageId=none" target="_blank" class="text-lg font-semibold text-blue-700 hover:underline block">介面後台</a>
+                        <p class="text-xs text-gray-400 mt-2">發布者:admin</p>
                     </article>
                 </div>
             </div>
@@ -121,51 +142,80 @@
         <script>
             let targetUrl = '';
             let targetPlatform = ''; 
-            let currentFilter = '貼文'; // 預設狀態
+            let currentType = '貼文'; 
+            let currentFolder = '全部貼文'; 
             let processingTimeout;
 
-            // 初始化：預設執行一次篩選
             window.onload = () => applyFilters();
 
-            function setFilter(value, btn) {
-                currentFilter = value;
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('btn-active'));
+            function setTypeFilter(value, btn) {
+                currentType = value;
+                document.querySelectorAll('.type-filter-btn').forEach(b => b.classList.remove('btn-active'));
+                btn.classList.add('btn-active');
+                applyFilters();
+            }
+
+            function setFolderFilter(value, btn) {
+                currentFolder = value;
+                document.querySelectorAll('.folder-filter-btn').forEach(b => b.classList.remove('btn-active'));
                 btn.classList.add('btn-active');
                 applyFilters();
             }
 
             function applyFilters() {
                 const query = document.getElementById('search-input').value.toLowerCase();
+                const selectedDate = document.getElementById('date-input').value; // YYYY-MM-DD
                 const hideLogs = document.getElementById('hide-logs').checked;
+                const logFilterContainer = document.getElementById('log-filter-container');
                 const posts = document.querySelectorAll('#posts-container .post-item');
                 let visibleCount = 0;
+
+                if (currentType === '貼文' && currentFolder === '全部貼文') {
+                    logFilterContainer.classList.remove('hidden');
+                } else {
+                    logFilterContainer.classList.add('hidden');
+                }
                 
                 posts.forEach(post => {
                     const title = post.querySelector('a').textContent.toLowerCase();
                     const platform = post.getAttribute('data-platform');
                     const source = post.getAttribute('data-source');
-
-                    const isLog = title.includes('更新日誌');
-                    if (hideLogs && isLog) {
-                        post.classList.add('hidden');
-                        return;
-                    }
+                    const folder = post.getAttribute('data-folder');
+                    const date = post.getAttribute('data-date'); 
 
                     const matchSearch = (title.includes(query));
+                    const matchDate = (selectedDate === '' || date === selectedDate);
                     
-                    // 根據新條件篩選
                     let matchType = false;
-                    if (currentFilter === '貼文') {
+                    if (currentType === '貼文') {
                         matchType = (platform === '本站');
-                    } else if (currentFilter === '書籤') {
+                    } else if (currentType === '書籤') {
                         matchType = (source === 'repost');
                     }
 
-                    if (matchSearch && matchType) {
-                        post.classList.remove('hidden');
-                        visibleCount++;
+                    const matchFolder = (currentFolder === '全部貼文' || folder === currentFolder);
+                    const isLog = folder === '更新日誌';
+
+                    if (query.length > 0) {
+                        if (matchSearch) {
+                            post.classList.remove('hidden');
+                            visibleCount++;
+                        } else {
+                            post.classList.add('hidden');
+                        }
                     } else {
-                        post.classList.add('hidden');
+                        if (selectedDate !== '' && !matchDate) {
+                            post.classList.add('hidden');
+                        } else {
+                            if (currentType === '貼文' && currentFolder === '全部貼文' && hideLogs && isLog) {
+                                post.classList.add('hidden');
+                            } else if (matchType && matchFolder) {
+                                post.classList.remove('hidden');
+                                visibleCount++;
+                            } else {
+                                post.classList.add('hidden');
+                            }
+                        }
                     }
                 });
 
@@ -182,42 +232,26 @@
                 showProcessing();
             }
 
-            function openManagement() {
-                document.getElementById('password-modal').classList.remove('hidden');
-            }
-
-            function closeManagement() {
-                document.getElementById('management-panel').classList.add('hidden');
-            }
-
+            function openManagement() { document.getElementById('password-modal').classList.remove('hidden'); }
+            function closeManagement() { document.getElementById('management-panel').classList.add('hidden'); }
             function showProcessing() {
                 document.getElementById('processing-modal').classList.remove('hidden');
                 processingTimeout = setTimeout(() => {
                     if (targetUrl) {
-                        if (targetPlatform === '本站') {
-                            window.open(targetUrl, '_self');
-                        } else {
-                            window.open(targetUrl, '_blank');
-                        }
+                        if (targetPlatform === '本站') window.open(targetUrl, '_self');
+                        else window.open(targetUrl, '_blank');
                     }
                     document.getElementById('processing-modal').classList.add('hidden');
                 }, 1200);
             }
-
-            function cancelProcessing() {
-                clearTimeout(processingTimeout);
-                document.getElementById('processing-modal').classList.add('hidden');
-            }
-
+            function cancelProcessing() { clearTimeout(processingTimeout); document.getElementById('processing-modal').classList.add('hidden'); }
             function closeModal() {
                 document.getElementById('password-modal').classList.add('hidden');
                 document.getElementById('password-input').value = '';
                 document.getElementById('error-msg').classList.add('hidden');
             }
-
             function checkPassword() {
-                const input = document.getElementById('password-input').value;
-                if (input === '548700') {
+                if (document.getElementById('password-input').value === '548700') {
                     closeModal();
                     document.getElementById('management-panel').classList.remove('hidden');
                 } else {
@@ -228,9 +262,9 @@
     </main>
 
     <footer class="text-center py-12 px-4 text-slate-400 text-sm">
-        <p class="mb-4">不准跨過我的底線 不然，我要重畫一條！</p>
+        <p class="mb-4">不准跨過我的底線 不然我要重畫一條!</p>
         <button onclick="openManagement()" class="hover:text-blue-500 transition underline">警衛室</button>
-        <p class="text-xs text-slate-400 mt-2">v1.0.1</p>
+        <p class="text-xs text-slate-400 mt-2">v1.2.0</p>
     </footer>
 
 </body>
