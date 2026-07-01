@@ -9,23 +9,31 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
         body { font-family: 'Noto Sans TC', sans-serif; }
         .btn-active { background-color: #3b82f6 !important; color: white !important; }
-        .text-repost { color: #8b5cf6 !important; } 
         .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
         .hover-card:hover { transform: translateY(-2px); transition: transform 0.2s; }
         
-        /* 火柴人動畫 */
-        @keyframes walkWaveWalk {
-            0% { transform: translateX(-100px); opacity: 0; }
-            20% { transform: translateX(0); opacity: 1; }
-            40% { transform: translateX(50px); }
-            50% { transform: translateX(50px) translateY(-5px); }
-            60% { transform: translateX(50px) translateY(0); }
-            80% { transform: translateX(100px); opacity: 1; }
-            100% { transform: translateX(250px); opacity: 0; }
+        @keyframes walkIn {
+            0% { transform: translateX(-150px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
         }
-        .stick-figure-container {
-            animation: walkWaveWalk 2.5s linear forwards;
+        @keyframes walkOut {
+            0% { transform: translateX(0); opacity: 1; }
+            100% { transform: translateX(150px); opacity: 0; }
         }
+        @keyframes pullSwitch {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(15px); }
+            100% { transform: translateY(0); }
+        }
+        @keyframes lightUp {
+            0% { fill: #e2e8f0; }
+            100% { fill: #facc15; }
+        }
+        
+        .animate-walk-in { animation: walkIn 0.8s ease-out forwards; }
+        .animate-walk-out { animation: walkOut 0.8s ease-in forwards; }
+        .animate-pull { animation: pullSwitch 0.4s ease-in-out; }
+        .animate-glow { animation: lightUp 0.3s ease-in-out forwards; }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen">
@@ -41,7 +49,7 @@
         
         <div class="mb-8 p-4 bg-white border border-gray-200 rounded-2xl shadow-sm">
             <div class="flex items-center w-full border border-gray-200 rounded-xl bg-gray-50 overflow-hidden mb-4">
-                <input type="text" id="search-input" oninput="handleInput()" placeholder="搜尋標題或簡介..." class="flex-1 px-5 py-3 outline-none bg-transparent">
+                <input type="text" id="search-input" oninput="applyFilters()" placeholder="搜尋標題或簡介..." class="flex-1 px-5 py-3 outline-none bg-transparent">
                 <button id="clear-search" onclick="clearSearch()" class="hidden px-3 text-gray-400 hover:text-red-500 transition-colors">✕</button>
                 <div class="border-l border-gray-200 px-3 bg-white">
                     <input type="date" id="date-input" onchange="applyFilters()" class="py-2 bg-transparent outline-none text-gray-400 text-sm cursor-pointer">
@@ -49,11 +57,6 @@
             </div>
 
             <div class="space-y-3">
-                <div class="flex flex-wrap gap-2 items-center" id="type-filter-nav">
-                    <span class="text-xs text-gray-400 mr-1 uppercase">類型:</span>
-                    <button onclick="setTypeFilter('貼文', this)" class="type-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm btn-active transition-all">貼文</button>
-                    <button onclick="setTypeFilter('書籤', this)" class="type-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">書籤</button>
-                </div>
                 <div class="flex flex-wrap gap-2 items-center" id="folder-filter-nav">
                     <span class="text-xs text-gray-400 mr-1 uppercase">目錄:</span>
                     <button onclick="setFolderFilter('全部貼文', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm btn-active transition-all">全部貼文</button>
@@ -74,52 +77,39 @@
         </div>
 
         <div id="posts-container" class="space-y-4">
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-folder="無" data-date="2026-07-01" data-url="https://sites.google.com/view/birthday0701/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-source="original" data-folder="更新日誌" data-date="2026-07-01" data-url="https://sites.google.com/view/v1-3-0/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+                <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v1.3.0</a>
+                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/01 | 資料夾:更新日誌</p>
+            </article>
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-source="original" data-folder="無" data-date="2026-07-01" data-url="https://sites.google.com/view/birthday0701/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 block">我媽的生日宴XD</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/01 | 資料夾:無</p>
             </article>
-
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-folder="無" data-date="2026-07-01" data-url="https://sites.google.com/view/tcblog/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-source="original" data-folder="無" data-date="2026-07-01" data-url="https://sites.google.com/view/tcblog/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 block">有吃過的人能告訴我好吃嗎</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/01 | 資料夾:無</p>
             </article>
-
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v1-2-0/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-source="original" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v1-2-0/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v1.2.0</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:更新日誌</p>
             </article>
-
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v1-0-0myblog/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-source="original" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v1-0-0myblog/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v1.0.0</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:更新日誌</p>
             </article>
-
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v0-1-1/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-source="original" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v0-1-1/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v0.1.1</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:更新日誌</p>
             </article>
-
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="threads" data-source="repost" data-folder="上班日的碎碎念" data-date="2026-06-30" data-url="https://www.threads.com/@_nxiangn_/post/DaMcGhWj154?xmt=AQG0ZYGlwuHqd264TfQc4lzekugyuJ4At5tCLdzN45N80A">
-                <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-repost block">家樂福改名!?</a>
-                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:上班日的碎碎念</p>
-            </article>
-
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="YT" data-source="repost" data-folder="周末的愉快時光" data-date="2026-06-30" data-url="https://www.youtube.com/shorts/zEmdVRD1cp4">
-                <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-repost block">誰急眼誰扣錢</a>
-                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:周末的愉快時光</p>
-            </article>
-
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-folder="周末的愉快時光" data-date="2026-06-30" data-url="https://sites.google.com/view/tcblog260516/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-source="original" data-folder="周末的愉快時光" data-date="2026-06-30" data-url="https://sites.google.com/view/tcblog260516/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">溪湖糖廠糖業小火車 下次還來!!</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:周末的愉快時光</p>
             </article>
-
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-folder="香港之旅" data-date="2026-04-16" data-url="https://sites.google.com/view/hkdisneyfirework/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-source="original" data-folder="香港之旅" data-date="2026-04-16" data-url="https://sites.google.com/view/hkdisneyfirework/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">香港迪士尼煙火 好看!</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/04/16 | 資料夾:香港之旅</p>
             </article>
-
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-folder="香港之旅" data-date="2026-04-15" data-url="https://sites.google.com/view/welocometohongkong/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-source="original" data-folder="香港之旅" data-date="2026-04-15" data-url="https://sites.google.com/view/welocometohongkong/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">期待已久的香港之旅!~</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/04/15 | 資料夾:香港之旅</p>
             </article>
@@ -134,57 +124,46 @@
                     <button onclick="closeManagement()" class="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg text-sm text-gray-600">關閉</button>
                 </div>
                 <div class="space-y-4">
-                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all">
-                        <a href="https://github.com/tigerfurry0722w/reserved" target="_blank" class="text-lg font-semibold text-blue-700 hover:underline block">網頁後台 (GitHub)</a>
-                        <p class="text-xs text-gray-400 mt-2">發布者:admin</p>
+                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-url="https://github.com/tigerfurry0722w/reserved" data-platform="external">
+                        <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">網頁後台 (GitHub)</a>
                     </article>
-                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all">
-                        <a href="https://sites.google.com/u/0/new/?authuser=0" target="_blank" class="text-lg font-semibold text-blue-700 hover:underline block">貼文後台 (Google Sites)</a>
-                        <p class="text-xs text-gray-400 mt-2">發布者:admin</p>
+                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-url="https://sites.google.com/u/0/new/?authuser=0" data-platform="external">
+                        <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">貼文後台 (Google Sites)</a>
                     </article>
-                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all">
-                        <a href="https://gemini.google.com/u/2/app/7a0fe69848e5a869?pageId=none" target="_blank" class="text-lg font-semibold text-blue-700 hover:underline block">介面後台</a>
-                        <p class="text-xs text-gray-400 mt-2">發布者:admin</p>
+                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-url="https://gemini.google.com/u/2/app/7a0fe69848e5a869?pageId=none" data-platform="external">
+                        <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">介面後台</a>
                     </article>
                 </div>
             </div>
         </div>
 
-        <div id="processing-modal" class="hidden fixed inset-0 bg-white bg-opacity-80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div id="processing-modal" class="hidden fixed inset-0 bg-white bg-opacity-90 backdrop-blur-sm flex items-center justify-center p-4 z-50">
             <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-sm text-center">
-                <!-- 火柴人動畫 -->
-                <div class="w-full h-32 mb-6 overflow-hidden relative">
-                    <svg viewBox="0 0 200 100" class="stick-figure-container w-full h-full text-blue-500" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="20" cy="40" r="10"/> <!-- 頭 -->
-                        <line x1="20" y1="50" x2="20" y2="80"/> <!-- 身體 -->
-                        <line x1="20" y1="60" x2="10" y2="70"/> <!-- 左手 -->
-                        <line x1="20" y1="60" x2="30" y2="70"/> <!-- 右手 -->
-                        <line x1="20" y1="80" x2="10" y2="95"/> <!-- 左腳 -->
-                        <line x1="20" y1="80" x2="30" y2="95"/> <!-- 右腳 -->
-                        <!-- 揮手波浪線 -->
-                        <path d="M30 65 Q 40 55 50 65" class="animate-pulse" />
+                <div class="w-full h-40 mb-6 flex justify-center items-center overflow-hidden">
+                    <svg width="150" height="150" viewBox="0 0 150 150">
+                        <circle id="bulb" cx="110" cy="40" r="15" fill="#e2e8f0"/>
+                        <rect x="105" y="55" width="10" height="5" fill="#cbd5e1"/>
+                        <path d="M 110 60 L 110 80" stroke="#cbd5e1" stroke-width="4"/>
+                        <rect x="105" y="80" width="10" height="20" fill="#94a3b8" rx="2"/>
+                        <rect id="switch-handle" x="100" y="80" width="20" height="10" fill="#475569"/>
+                        <g id="stickman" style="opacity:0">
+                            <circle cx="30" cy="80" r="8" fill="#1e293b"/>
+                            <line x1="30" y1="88" x2="30" y2="110" stroke="#1e293b" stroke-width="4"/>
+                            <line x1="30" y1="110" x2="20" y2="130" stroke="#1e293b" stroke-width="4"/>
+                            <line x1="30" y1="110" x2="40" y2="130" stroke="#1e293b" stroke-width="4"/>
+                            <line x1="30" y1="95" x2="15" y2="105" stroke="#1e293b" stroke-width="4"/>
+                            <line x1="30" y1="95" x2="45" y2="105" stroke="#1e293b" stroke-width="4"/>
+                        </g>
                     </svg>
                 </div>
-                <p class="text-lg font-medium text-slate-800 mb-6">網頁處理中，請稍後</p>
-                <button onclick="cancelProcessing()" class="w-full px-5 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition">取消</button>
+                <p class="text-lg font-medium text-slate-800">網頁處理中，請稍後</p>
             </div>
         </div>
 
         <script>
             let targetUrl = '';
             let targetPlatform = ''; 
-            let currentType = '貼文'; 
             let currentFolder = '全部貼文'; 
-            let processingTimeout;
-
-            window.onload = () => applyFilters();
-
-            function setTypeFilter(value, btn) {
-                currentType = value;
-                document.querySelectorAll('.type-filter-btn').forEach(b => b.classList.remove('btn-active'));
-                btn.classList.add('btn-active');
-                applyFilters();
-            }
 
             function setFolderFilter(value, btn) {
                 currentFolder = value;
@@ -193,24 +172,10 @@
                 applyFilters();
             }
 
-            function handleInput() {
-                const searchInput = document.getElementById('search-input');
-                const clearBtn = document.getElementById('clear-search');
-                clearBtn.classList.toggle('hidden', searchInput.value === '');
-                applyFilters();
-            }
-
-            function clearSearch() {
-                const searchInput = document.getElementById('search-input');
-                searchInput.value = '';
-                document.getElementById('clear-search').classList.add('hidden');
-                applyFilters();
-            }
-
             function applyFilters() {
                 const query = document.getElementById('search-input').value.toLowerCase();
+                document.getElementById('clear-search').classList.toggle('hidden', query === '');
                 
-                // 檢查是否輸入隱藏指令
                 if (query === '548700') {
                     document.getElementById('management-panel').classList.remove('hidden');
                     return;
@@ -218,30 +183,16 @@
 
                 const selectedDate = document.getElementById('date-input').value;
                 const hideLogs = document.getElementById('hide-logs').checked;
-                const logFilterContainer = document.getElementById('log-filter-container');
                 const posts = document.querySelectorAll('#posts-container .post-item');
                 let visibleCount = 0;
-
-                if (currentType === '貼文' && currentFolder === '全部貼文') {
-                    logFilterContainer.classList.remove('hidden');
-                } else {
-                    logFilterContainer.classList.add('hidden');
-                }
                 
                 posts.forEach(post => {
                     const title = post.querySelector('a').textContent.toLowerCase();
-                    const platform = post.getAttribute('data-platform');
-                    const source = post.getAttribute('data-source');
                     const folder = post.getAttribute('data-folder');
                     const date = post.getAttribute('data-date'); 
 
                     const matchSearch = (title.includes(query));
                     const matchDate = (selectedDate === '' || date === selectedDate);
-                    
-                    let matchType = false;
-                    if (currentType === '貼文') matchType = (platform === '本站');
-                    else if (currentType === '書籤') matchType = (source === 'repost');
-
                     const matchFolder = (currentFolder === '全部貼文' || folder === currentFolder);
                     const isLog = folder === '更新日誌';
 
@@ -251,8 +202,8 @@
                     } else {
                         if (selectedDate !== '' && !matchDate) post.classList.add('hidden');
                         else {
-                            if (currentType === '貼文' && currentFolder === '全部貼文' && hideLogs && isLog) post.classList.add('hidden');
-                            else if (matchType && matchFolder) { post.classList.remove('hidden'); visibleCount++; }
+                            if (currentFolder === '全部貼文' && hideLogs && isLog) post.classList.add('hidden');
+                            else if (matchFolder) { post.classList.remove('hidden'); visibleCount++; }
                             else post.classList.add('hidden');
                         }
                     }
@@ -260,33 +211,61 @@
                 document.getElementById('no-results').classList.toggle('hidden', visibleCount > 0);
             }
 
+            function clearSearch() {
+                document.getElementById('search-input').value = '';
+                applyFilters();
+            }
+
             function handlePostClick(event) {
-                const link = event.target;
-                const article = link.closest('.post-item');
+                const article = event.target.closest('.post-item');
                 if(!article) return;
-                targetUrl = link.getAttribute('data-url') || article.getAttribute('data-url');
-                targetPlatform = link.getAttribute('data-platform') || article.getAttribute('data-platform');
+                targetUrl = article.getAttribute('data-url');
+                targetPlatform = article.getAttribute('data-platform');
                 showProcessing();
             }
 
             function closeManagement() { document.getElementById('management-panel').classList.add('hidden'); }
             
             function showProcessing() {
-                document.getElementById('processing-modal').classList.remove('hidden');
-                processingTimeout = setTimeout(() => {
+                const modal = document.getElementById('processing-modal');
+                const stickman = document.getElementById('stickman');
+                const bulb = document.getElementById('bulb');
+                const handle = document.getElementById('switch-handle');
+                
+                modal.classList.remove('hidden');
+                
+                // 重置所有類別與狀態
+                stickman.classList.remove('animate-walk-in', 'animate-walk-out');
+                bulb.classList.remove('animate-glow');
+                handle.classList.remove('animate-pull');
+                void stickman.offsetWidth; 
+                
+                // 動畫序列
+                stickman.classList.add('animate-walk-in');
+                
+                setTimeout(() => {
+                    handle.classList.add('animate-pull');
+                    bulb.classList.add('animate-glow');
+                }, 800);
+
+                setTimeout(() => {
+                    stickman.classList.add('animate-walk-out');
+                }, 1500);
+
+                setTimeout(() => {
                     if (targetUrl) {
-                        if (targetPlatform === '本站') window.open(targetUrl, '_self');
-                        else window.open(targetUrl, '_blank');
+                        if (targetPlatform === 'external') window.open(targetUrl, '_blank');
+                        else window.location.href = targetUrl;
                     }
-                    document.getElementById('processing-modal').classList.add('hidden');
+                    modal.classList.add('hidden');
                 }, 2500);
             }
-            function cancelProcessing() { clearTimeout(processingTimeout); document.getElementById('processing-modal').classList.add('hidden'); }
         </script>
     </main>
+
     <footer class="text-center py-12 px-4 text-slate-400 text-sm">
         <p class="mb-4">不准跨過我的底線 不然我要重畫一條!</p>
-        <p class="text-xs text-slate-400 mt-2">v1.2.0</p>
+        <p class="text-xs text-slate-400 mt-2">v1.3.0</p>
     </footer>
 </body>
 </html>
