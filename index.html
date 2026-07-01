@@ -42,6 +42,7 @@
                 <div class="flex flex-wrap gap-2 items-center" id="folder-filter-nav">
                     <span class="text-xs text-gray-400 mr-1 uppercase">目錄:</span>
                     <button onclick="setFolderFilter('全部貼文', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm btn-active transition-all">全部貼文</button>
+                    <button onclick="setFolderFilter('無', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">無</button>
                     <button onclick="setFolderFilter('上班日的碎碎念', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">上班日的碎碎念</button>
                     <button onclick="setFolderFilter('周末的愉快時光', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">周末的愉快時光</button>
                     <button onclick="setFolderFilter('香港之旅', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">香港之旅</button>
@@ -58,6 +59,12 @@
         </div>
 
         <div id="posts-container" class="space-y-4">
+            <!-- 新增貼文 (歸類至「無」) -->
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-folder="無" data-date="2026-07-01" data-url="https://sites.google.com/view/tcblog/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+                <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">有吃過的人能告訴我好吃嗎</a>
+                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/01 | 資料夾:無</p>
+            </article>
+
             <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-platform="本站" data-source="original" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v1-2-0/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v1.2.0</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:更新日誌</p>
