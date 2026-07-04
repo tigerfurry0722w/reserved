@@ -29,11 +29,25 @@
             0% { fill: #e2e8f0; }
             100% { fill: #facc15; }
         }
+        @keyframes brickFall {
+            0% { transform: translateY(-120px); opacity: 0; }
+            10% { opacity: 1; }
+            45% { transform: translateY(-120px); animation-timing-function: cubic-bezier(0.8, 0, 1, 0.45); }
+            50% { transform: translateY(25px); }
+            100% { transform: translateY(25px); }
+        }
+        @keyframes squash {
+            0%, 48% { transform: scaleY(1); }
+            50% { transform: scaleY(0.2); }
+            100% { transform: scaleY(0.2); }
+        }
         
         .animate-walk-in { animation: walkIn 0.8s ease-out forwards; }
         .animate-walk-out { animation: walkOut 0.8s ease-in forwards; }
         .animate-pull { animation: pullSwitch 0.4s ease-in-out; }
         .animate-glow { animation: lightUp 0.3s ease-in-out forwards; }
+        .animate-brick { animation: brickFall 2s ease-in forwards; }
+        .animate-squash { animation: squash 2s ease-in forwards; transform-origin: bottom; }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen">
@@ -63,60 +77,87 @@
                     <button onclick="setFolderFilter('無', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">無</button>
                     <button onclick="setFolderFilter('上班日的碎碎念', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">上班日的碎碎念</button>
                     <button onclick="setFolderFilter('周末的愉快時光', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">周末的愉快時光</button>
+                    <button onclick="setFolderFilter('僅附件(相簿)', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">僅附件(相簿)</button>
                     <button onclick="setFolderFilter('香港之旅', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">香港之旅</button>
                     <button onclick="setFolderFilter('更新日誌', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">更新日誌</button>
                 </div>
-            </div>
-
-            <div class="mt-4 pt-4 border-t border-gray-100" id="log-filter-container">
-                <label class="flex items-center gap-2 text-sm cursor-pointer text-gray-600 hover:text-blue-600 w-fit">
-                    <input type="checkbox" id="hide-logs" onchange="applyFilters()" class="w-4 h-4 text-blue-600 rounded">
-                    <span>隱藏所有更新日誌</span>
-                </label>
+                <div class="mt-4 pt-4 border-t border-gray-100">
+                    <label class="flex items-center gap-2 text-sm cursor-pointer text-gray-600 hover:text-blue-600 w-fit">
+                        <input type="checkbox" id="hide-logs" onchange="applyFilters()" class="w-4 h-4 text-blue-600 rounded">
+                        <span>隱藏所有更新日誌</span>
+                    </label>
+                </div>
             </div>
         </div>
 
         <div id="posts-container" class="space-y-4">
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-source="original" data-folder="更新日誌" data-date="2026-07-01" data-url="https://sites.google.com/view/v1-3-0/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <!-- 貼文列表 -->
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="更新日誌" data-date="2026-07-04" data-url="https://sites.google.com/view/v140/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+                <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v1.4.0</a>
+                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/04 | 資料夾:更新日誌</p>
+            </article>
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="周末的愉快時光,僅附件(相簿)" data-date="2026-07-06" data-url="https://sites.google.com/view/2607041/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+                <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">社區樂高活動 相簿</a>
+                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/06 | 資料夾:周末的愉快時光, 僅附件(相簿)</p>
+            </article>
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="更新日誌" data-date="2026-07-01" data-url="https://sites.google.com/view/v1-3-0/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v1.3.0</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/01 | 資料夾:更新日誌</p>
             </article>
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-source="original" data-folder="無" data-date="2026-07-01" data-url="https://sites.google.com/view/birthday0701/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="無" data-date="2026-07-01" data-url="https://sites.google.com/view/birthday0701/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 block">我媽的生日宴XD</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/01 | 資料夾:無</p>
             </article>
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-source="original" data-folder="無" data-date="2026-07-01" data-url="https://sites.google.com/view/tcblog/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="無" data-date="2026-07-01" data-url="https://sites.google.com/view/tcblog/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 block">有吃過的人能告訴我好吃嗎</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/01 | 資料夾:無</p>
             </article>
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-source="original" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v1-2-0/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v1-2-0/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v1.2.0</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:更新日誌</p>
             </article>
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-source="original" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v1-0-0myblog/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v1-0-0myblog/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v1.0.0</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:更新日誌</p>
             </article>
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-source="original" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v0-1-1/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v0-1-1/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v0.1.1</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:更新日誌</p>
             </article>
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-source="original" data-folder="周末的愉快時光" data-date="2026-06-30" data-url="https://sites.google.com/view/tcblog260516/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="周末的愉快時光" data-date="2026-06-30" data-url="https://sites.google.com/view/tcblog260516/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">溪湖糖廠糖業小火車 下次還來!!</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:周末的愉快時光</p>
             </article>
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-source="original" data-folder="香港之旅" data-date="2026-04-16" data-url="https://sites.google.com/view/hkdisneyfirework/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="香港之旅" data-date="2026-04-16" data-url="https://sites.google.com/view/hkdisneyfirework/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">香港迪士尼煙火 好看!</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/04/16 | 資料夾:香港之旅</p>
             </article>
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-source="original" data-folder="香港之旅" data-date="2026-04-15" data-url="https://sites.google.com/view/welocometohongkong/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="香港之旅" data-date="2026-04-15" data-url="https://sites.google.com/view/welocometohongkong/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">期待已久的香港之旅!~</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/04/15 | 資料夾:香港之旅</p>
             </article>
         </div>
 
-        <div id="no-results" class="hidden text-center py-16 text-gray-400 font-medium">這裡什麼都木有</div>
+        <div id="no-results" class="hidden text-center py-16 text-gray-400 font-medium">
+            <div class="mb-6 flex justify-center">
+                <svg width="150" height="150" viewBox="0 0 150 150" overflow="visible">
+                    <g id="hit-stickman" class="animate-squash">
+                        <circle cx="75" cy="70" r="8" fill="#94a3b8"/>
+                        <line x1="75" y1="78" x2="75" y2="95" stroke="#94a3b8" stroke-width="4"/>
+                        <line x1="75" y1="85" x2="60" y2="80" stroke="#94a3b8" stroke-width="4"/>
+                        <circle cx="57" cy="78" r="6" fill="none" stroke="#94a3b8" stroke-width="2"/>
+                        <line x1="53" y1="82" x2="49" y2="86" stroke="#94a3b8" stroke-width="2"/>
+                        <line x1="75" y1="85" x2="90" y2="95" stroke="#94a3b8" stroke-width="4"/>
+                        <line x1="75" y1="95" x2="65" y2="115" stroke="#94a3b8" stroke-width="4"/>
+                        <line x1="75" y1="95" x2="85" y2="115" stroke="#94a3b8" stroke-width="4"/>
+                    </g>
+                    <rect class="animate-brick" x="67" y="0" width="16" height="12" fill="#ef4444" rx="2"/>
+                </svg>
+            </div>
+            <p>這裡什麼都木有</p>
+        </div>
 
+        <!-- 隱藏後台 -->
         <div id="management-panel" class="hidden fixed inset-0 bg-white z-50 p-6 md:p-12 overflow-auto">
             <div class="max-w-2xl mx-auto">
                 <div class="flex justify-between items-center mb-10 border-b pb-6">
@@ -140,6 +181,7 @@
             </div>
         </div>
 
+        <!-- 處理中動畫 -->
         <div id="processing-modal" class="hidden fixed inset-0 bg-white bg-opacity-90 backdrop-blur-sm flex items-center justify-center p-4 z-50">
             <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-sm text-center">
                 <div class="w-full h-40 mb-6 flex justify-center items-center overflow-hidden">
@@ -191,13 +233,14 @@
                 
                 posts.forEach(post => {
                     const title = post.querySelector('a').textContent.toLowerCase();
-                    const folder = post.getAttribute('data-folder');
+                    const folderAttr = post.getAttribute('data-folder');
+                    const folderArray = folderAttr ? folderAttr.split(',') : [];
                     const date = post.getAttribute('data-date'); 
 
                     const matchSearch = (title.includes(query));
                     const matchDate = (selectedDate === '' || date === selectedDate);
-                    const matchFolder = (currentFolder === '全部貼文' || folder === currentFolder);
-                    const isLog = folder === '更新日誌';
+                    const matchFolder = (currentFolder === '全部貼文' || folderArray.includes(currentFolder));
+                    const isLog = folderArray.includes('更新日誌');
 
                     if (query.length > 0 && query !== '548700') {
                         if (matchSearch) { post.classList.remove('hidden'); visibleCount++; }
@@ -205,7 +248,7 @@
                     } else {
                         if (selectedDate !== '' && !matchDate) post.classList.add('hidden');
                         else {
-                            if (currentFolder === '全部貼文' && hideLogs && isLog) post.classList.add('hidden');
+                            if (hideLogs && isLog) post.classList.add('hidden');
                             else if (matchFolder) { post.classList.remove('hidden'); visibleCount++; }
                             else post.classList.add('hidden');
                         }
@@ -236,25 +279,19 @@
                 const handle = document.getElementById('switch-handle');
                 
                 modal.classList.remove('hidden');
-                
-                // 重置動畫類別
                 stickman.classList.remove('animate-walk-in', 'animate-walk-out');
                 bulb.classList.remove('animate-glow');
                 handle.classList.remove('animate-pull');
                 void stickman.offsetWidth; 
                 
-                // 動畫序列
                 stickman.classList.add('animate-walk-in');
-                
                 setTimeout(() => {
                     handle.classList.add('animate-pull');
                     bulb.classList.add('animate-glow');
                 }, 800);
-
                 setTimeout(() => {
                     stickman.classList.add('animate-walk-out');
                 }, 1500);
-
                 setTimeout(() => {
                     if (targetUrl && targetUrl !== '#') {
                         if (targetPlatform === 'external') window.open(targetUrl, '_blank');
@@ -267,8 +304,8 @@
     </main>
 
     <footer class="text-center py-12 px-4 text-slate-400 text-sm">
-        <p class="mb-4">不准跨過我的底線 不然 V1.3.0 也要重畫一條!</p>
-        <p class="text-xs text-slate-400 mt-2">v1.3.0</p>
+        <p class="mb-4">不准跨過我的底線 不然 V1.4.0 也要重畫一條!</p>
+        <p class="text-xs text-slate-400 mt-2">v1.4.0</p>
     </footer>
 </body>
 </html>
