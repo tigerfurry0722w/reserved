@@ -17,7 +17,6 @@
         @keyframes pullSwitch { 0% { transform: translateY(0); } 50% { transform: translateY(15px); } 100% { transform: translateY(0); } }
         @keyframes lightUp { 0% { fill: #e2e8f0; } 100% { fill: #facc15; } }
         
-        /* 調整磚頭下落與人物擠壓動畫 */
         @keyframes brickFall { 
             0% { transform: translateY(-100px); } 
             100% { transform: translateY(75px); } 
@@ -50,7 +49,7 @@
     <main class="max-w-2xl mx-auto py-8 px-4 md:px-8">
         <div class="mb-8 p-4 bg-white border border-gray-200 rounded-2xl shadow-sm">
             <div class="flex items-center w-full border border-gray-200 rounded-xl bg-gray-50 overflow-hidden mb-4">
-                <input type="text" id="search-input" oninput="applyFilters()" placeholder="搜尋標題或簡介..." class="flex-1 px-5 py-3 outline-none bg-transparent">
+                <input type="text" id="search-input" oninput="applyFilters()" placeholder="搜尋標題、簡介或發布者..." class="flex-1 px-5 py-3 outline-none bg-transparent">
                 <button id="clear-search" onclick="clearSearch()" class="hidden px-3 text-gray-400 hover:text-red-500 transition-colors">✕</button>
                 <div class="border-l border-gray-200 px-3 bg-white">
                     <input type="date" id="date-input" onchange="applyFilters()" class="py-2 bg-transparent outline-none text-gray-400 text-sm cursor-pointer">
@@ -83,47 +82,47 @@
         </div>
 
         <div id="posts-container" class="space-y-4">
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="相簿,周末的愉快時光" data-date="2026-07-05" data-url="https://sites.google.com/view/photo260705/%E9%A6%96%E9%A0%81">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-author="admin" data-folder="相簿,周末的愉快時光" data-date="2026-07-05" data-url="https://sites.google.com/view/photo260705/%E9%A6%96%E9%A0%81">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 block">生物多樣性研究中心-相簿</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/05 | 資料夾:相簿,周末的愉快時光</p>
             </article>
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="相簿,周末的愉快時光" data-date="2026-07-04" data-url="https://sites.google.com/view/legophoto/%E9%A6%96%E9%A0%81">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-author="admin" data-folder="相簿,周末的愉快時光" data-date="2026-07-04" data-url="https://sites.google.com/view/legophoto/%E9%A6%96%E9%A0%81">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 block">社區樂高活動相簿</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/04 | 資料夾:相簿,周末的愉快時光</p>
             </article>
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="更新日誌" data-date="2026-07-01" data-url="https://sites.google.com/view/v1-3-0/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-author="admin" data-folder="更新日誌" data-date="2026-07-01" data-url="https://sites.google.com/view/v1-3-0/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v1.3.0</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/01 | 資料夾:更新日誌</p>
             </article>
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="無" data-date="2026-07-01" data-url="https://sites.google.com/view/birthday0701/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-author="admin" data-folder="無" data-date="2026-07-01" data-url="https://sites.google.com/view/birthday0701/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 block">我媽的生日宴XD</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/01 | 資料夾:無</p>
             </article>
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="無" data-date="2026-07-01" data-url="https://sites.google.com/view/tcblog/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-author="admin" data-folder="無" data-date="2026-07-01" data-url="https://sites.google.com/view/tcblog/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 block">有吃過的人能告訴我好吃嗎</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/01 | 資料夾:無</p>
             </article>
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v1-2-0/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-author="admin" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v1-2-0/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v1.2.0</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:更新日誌</p>
             </article>
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v1-0-0myblog/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-author="admin" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v1-0-0myblog/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v1.0.0</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:更新日誌</p>
             </article>
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v0-1-1/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-author="admin" data-folder="更新日誌" data-date="2026-06-30" data-url="https://sites.google.com/view/v0-1-1/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v0.1.1</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:更新日誌</p>
             </article>
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="周末的愉快時光" data-date="2026-06-30" data-url="https://sites.google.com/view/tcblog260516/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-author="admin" data-folder="周末的愉快時光" data-date="2026-06-30" data-url="https://sites.google.com/view/tcblog260516/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">溪湖糖廠糖業小火車 下次還來!!</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/06/30 | 資料夾:周末的愉快時光</p>
             </article>
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="香港之旅" data-date="2026-04-16" data-url="https://sites.google.com/view/hkdisneyfirework/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-author="admin" data-folder="香港之旅" data-date="2026-04-16" data-url="https://sites.google.com/view/hkdisneyfirework/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">香港迪士尼煙火 好看!</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/04/16 | 資料夾:香港之旅</p>
             </article>
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="香港之旅" data-date="2026-04-15" data-url="https://sites.google.com/view/welocometohongkong/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-author="admin" data-folder="香港之旅" data-date="2026-04-15" data-url="https://sites.google.com/view/welocometohongkong/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">期待已久的香港之旅!~</a>
                 <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/04/15 | 資料夾:香港之旅</p>
             </article>
@@ -142,7 +141,7 @@
                         <circle cx="95" cy="100" r="8" fill="none" stroke="#64748b" stroke-width="3"/>
                         <line x1="90" y1="105" x2="85" y2="110" stroke="#64748b" stroke-width="3"/>
                     </g>
-                    <rect id="brick-egg" x="68" y="0" width="14" height="10" fill="#ef4444" class="animate-brick" />
+                    <rect id="brick-egg" x="71" y="0" width="8" height="6" fill="#ef4444" class="animate-brick" />
                 </svg>
                 <p>這裡什麼都木有</p>
             </div>
@@ -207,11 +206,12 @@
                 
                 posts.forEach(post => {
                     const title = post.querySelector('a').textContent.toLowerCase();
+                    const author = post.getAttribute('data-author') || "";
                     const folder = post.getAttribute('data-folder') || "";
                     const folders = folder.split(',');
                     const date = post.getAttribute('data-date'); 
 
-                    const matchSearch = (title.includes(query));
+                    const matchSearch = (title.includes(query) || author.toLowerCase().includes(query));
                     const matchDate = (selectedDate === '' || date === selectedDate);
                     const matchFolder = (currentFolder === '全部貼文' || folders.includes(currentFolder));
                     const isLog = folders.includes('更新日誌');
