@@ -12,42 +12,30 @@
         .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
         .hover-card:hover { transform: translateY(-2px); transition: transform 0.2s; }
         
-        @keyframes walkIn {
-            0% { transform: translateX(-150px); opacity: 0; }
-            100% { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes walkOut {
-            0% { transform: translateX(0); opacity: 1; }
-            100% { transform: translateX(150px); opacity: 0; }
-        }
-        @keyframes pullSwitch {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(15px); }
-            100% { transform: translateY(0); }
-        }
-        @keyframes lightUp {
-            0% { fill: #e2e8f0; }
-            100% { fill: #facc15; }
-        }
-        @keyframes brickFall {
-            0% { transform: translateY(-120px); opacity: 0; }
-            10% { opacity: 1; }
-            45% { transform: translateY(-120px); animation-timing-function: cubic-bezier(0.8, 0, 1, 0.45); }
-            50% { transform: translateY(25px); }
-            100% { transform: translateY(25px); }
-        }
-        @keyframes squash {
-            0%, 48% { transform: scaleY(1); }
-            50% { transform: scaleY(0.2); }
-            100% { transform: scaleY(0.2); }
-        }
+        @keyframes walkIn { 0% { transform: translateX(-150px); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+        @keyframes walkOut { 0% { transform: translateX(0); opacity: 1; } 100% { transform: translateX(150px); opacity: 0; } }
+        @keyframes pullSwitch { 0% { transform: translateY(0); } 50% { transform: translateY(15px); } 100% { transform: translateY(0); } }
+        @keyframes lightUp { 0% { fill: #e2e8f0; } 100% { fill: #facc15; } }
         
+        /* 調整磚頭下落與人物擠壓動畫 */
+        @keyframes brickFall { 
+            0% { transform: translateY(-100px); } 
+            100% { transform: translateY(75px); } 
+        }
+        @keyframes squash { 
+            0% { transform: scaleY(1); } 
+            50% { transform: scaleY(1); } 
+            60% { transform: scaleY(0.2); } 
+            100% { transform: scaleY(0.2); } 
+        }
+
         .animate-walk-in { animation: walkIn 0.8s ease-out forwards; }
         .animate-walk-out { animation: walkOut 0.8s ease-in forwards; }
         .animate-pull { animation: pullSwitch 0.4s ease-in-out; }
         .animate-glow { animation: lightUp 0.3s ease-in-out forwards; }
-        .animate-brick { animation: brickFall 2s ease-in forwards; }
-        .animate-squash { animation: squash 2s ease-in forwards; transform-origin: bottom; }
+        
+        .animate-brick { animation: brickFall 0.4s cubic-bezier(0.55, 0.05, 0.67, 0.19) forwards; }
+        .animate-squash { animation: squash 0.5s ease-out 0.35s forwards; }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen">
@@ -60,7 +48,6 @@
     </header>
 
     <main class="max-w-2xl mx-auto py-8 px-4 md:px-8">
-        
         <div class="mb-8 p-4 bg-white border border-gray-200 rounded-2xl shadow-sm">
             <div class="flex items-center w-full border border-gray-200 rounded-xl bg-gray-50 overflow-hidden mb-4">
                 <input type="text" id="search-input" oninput="applyFilters()" placeholder="搜尋標題或簡介..." class="flex-1 px-5 py-3 outline-none bg-transparent">
@@ -77,28 +64,32 @@
                     <button onclick="setFolderFilter('無', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">無</button>
                     <button onclick="setFolderFilter('上班日的碎碎念', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">上班日的碎碎念</button>
                     <button onclick="setFolderFilter('周末的愉快時光', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">周末的愉快時光</button>
-                    <button onclick="setFolderFilter('僅附件(相簿)', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">僅附件(相簿)</button>
                     <button onclick="setFolderFilter('香港之旅', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">香港之旅</button>
+                    <button onclick="setFolderFilter('相簿', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">相簿</button>
                     <button onclick="setFolderFilter('更新日誌', this)" class="folder-filter-btn px-3 py-1 bg-gray-100 hover:bg-blue-100 rounded-lg text-sm transition-all">更新日誌</button>
                 </div>
-                <div class="mt-4 pt-4 border-t border-gray-100">
-                    <label class="flex items-center gap-2 text-sm cursor-pointer text-gray-600 hover:text-blue-600 w-fit">
-                        <input type="checkbox" id="hide-logs" onchange="applyFilters()" class="w-4 h-4 text-blue-600 rounded">
-                        <span>隱藏所有更新日誌</span>
-                    </label>
-                </div>
+            </div>
+
+            <div class="mt-4 pt-4 border-t border-gray-100 flex flex-wrap gap-4" id="log-filter-container">
+                <label class="flex items-center gap-2 text-sm cursor-pointer text-gray-600 hover:text-blue-600 w-fit">
+                    <input type="checkbox" id="hide-logs" onchange="applyFilters()" class="w-4 h-4 text-blue-600 rounded">
+                    <span>隱藏所有更新日誌</span>
+                </label>
+                <label class="flex items-center gap-2 text-sm cursor-pointer text-gray-600 hover:text-blue-600 w-fit">
+                    <input type="checkbox" id="hide-albums" onchange="applyFilters()" class="w-4 h-4 text-blue-600 rounded">
+                    <span>隱藏所有相簿</span>
+                </label>
             </div>
         </div>
 
         <div id="posts-container" class="space-y-4">
-            <!-- 貼文列表 -->
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="更新日誌" data-date="2026-07-04" data-url="https://sites.google.com/view/v140/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
-                <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v1.4.0</a>
-                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/04 | 資料夾:更新日誌</p>
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="相簿,周末的愉快時光" data-date="2026-07-05" data-url="https://sites.google.com/view/photo260705/%E9%A6%96%E9%A0%81">
+                <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 block">生物多樣性研究中心-相簿</a>
+                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/05 | 資料夾:相簿,周末的愉快時光</p>
             </article>
-            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="周末的愉快時光,僅附件(相簿)" data-date="2026-07-06" data-url="https://sites.google.com/view/2607041/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
-                <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">社區樂高活動 相簿</a>
-                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/06 | 資料夾:周末的愉快時光, 僅附件(相簿)</p>
+            <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="相簿,周末的愉快時光" data-date="2026-07-04" data-url="https://sites.google.com/view/legophoto/%E9%A6%96%E9%A0%81">
+                <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 block">社區樂高活動相簿</a>
+                <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/04 | 資料夾:相簿,周末的愉快時光</p>
             </article>
             <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-folder="更新日誌" data-date="2026-07-01" data-url="https://sites.google.com/view/v1-3-0/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5">
                 <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">更新日誌v1.3.0</a>
@@ -139,68 +130,50 @@
         </div>
 
         <div id="no-results" class="hidden text-center py-16 text-gray-400 font-medium">
-            <div class="mb-6 flex justify-center">
-                <svg width="150" height="150" viewBox="0 0 150 150" overflow="visible">
-                    <g id="hit-stickman" class="animate-squash">
-                        <circle cx="75" cy="70" r="8" fill="#94a3b8"/>
-                        <line x1="75" y1="78" x2="75" y2="95" stroke="#94a3b8" stroke-width="4"/>
-                        <line x1="75" y1="85" x2="60" y2="80" stroke="#94a3b8" stroke-width="4"/>
-                        <circle cx="57" cy="78" r="6" fill="none" stroke="#94a3b8" stroke-width="2"/>
-                        <line x1="53" y1="82" x2="49" y2="86" stroke="#94a3b8" stroke-width="2"/>
-                        <line x1="75" y1="85" x2="90" y2="95" stroke="#94a3b8" stroke-width="4"/>
-                        <line x1="75" y1="95" x2="65" y2="115" stroke="#94a3b8" stroke-width="4"/>
-                        <line x1="75" y1="95" x2="85" y2="115" stroke="#94a3b8" stroke-width="4"/>
+            <div class="flex flex-col items-center justify-center gap-4">
+                <svg width="150" height="150" viewBox="0 0 150 150">
+                    <g id="stickman-egg" class="animate-squash origin-bottom">
+                        <circle cx="75" cy="80" r="8" fill="#1e293b"/> 
+                        <line x1="75" y1="88" x2="75" y2="110" stroke="#1e293b" stroke-width="4"/> 
+                        <line x1="75" y1="110" x2="65" y2="130" stroke="#1e293b" stroke-width="4"/> 
+                        <line x1="75" y1="110" x2="85" y2="130" stroke="#1e293b" stroke-width="4"/> 
+                        <line x1="75" y1="95" x2="60" y2="105" stroke="#1e293b" stroke-width="4"/> 
+                        <line x1="75" y1="95" x2="90" y2="105" stroke="#1e293b" stroke-width="4"/> 
+                        <circle cx="95" cy="100" r="8" fill="none" stroke="#64748b" stroke-width="3"/>
+                        <line x1="90" y1="105" x2="85" y2="110" stroke="#64748b" stroke-width="3"/>
                     </g>
-                    <rect class="animate-brick" x="67" y="0" width="16" height="12" fill="#ef4444" rx="2"/>
+                    <rect id="brick-egg" x="68" y="0" width="14" height="10" fill="#ef4444" class="animate-brick" />
                 </svg>
+                <p>這裡什麼都木有</p>
             </div>
-            <p>這裡什麼都木有</p>
         </div>
 
-        <!-- 隱藏後台 -->
         <div id="management-panel" class="hidden fixed inset-0 bg-white z-50 p-6 md:p-12 overflow-auto">
             <div class="max-w-2xl mx-auto">
                 <div class="flex justify-between items-center mb-10 border-b pb-6">
                     <h2 class="text-3xl font-bold text-slate-800">隱藏的貼文</h2>
                     <button onclick="closeManagement()" class="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg text-sm text-gray-600">關閉</button>
                 </div>
-                <div class="space-y-4">
-                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-url="https://sites.google.com/view/furrystickers/%E9%87%8D%E6%96%B0%E8%BC%89%E5%85%A5" data-platform="external">
-                        <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">貼圖存放</a>
-                        <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/01 | 資料夾:隱藏的貼文</p>
-                    </article>
-                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-url="https://github.com/tigerfurry0722w/reserved" data-platform="external">
-                        <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">首頁後台</a>
-                        <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/01 | 資料夾:隱藏的貼文</p>
-                    </article>
-                    <article class="post-item bg-white p-5 rounded-2xl border border-gray-100 card-shadow hover-card transition-all" data-url="https://sites.google.com" data-platform="external">
-                        <a href="javascript:void(0)" onclick="handlePostClick(event)" class="text-lg font-semibold text-blue-700 hover:underline block">貼文後台</a>
-                        <p class="text-xs text-gray-400 mt-2">發布者:admin | 2026/07/01 | 資料夾:隱藏的貼文</p>
-                    </article>
-                </div>
             </div>
         </div>
 
-        <!-- 處理中動畫 -->
         <div id="processing-modal" class="hidden fixed inset-0 bg-white bg-opacity-90 backdrop-blur-sm flex items-center justify-center p-4 z-50">
             <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-sm text-center">
-                <div class="w-full h-40 mb-6 flex justify-center items-center overflow-hidden">
-                    <svg width="150" height="150" viewBox="0 0 150 150">
-                        <circle id="bulb" cx="110" cy="40" r="15" fill="#e2e8f0"/>
-                        <rect x="105" y="55" width="10" height="5" fill="#cbd5e1"/>
-                        <path d="M 110 60 L 110 80" stroke="#cbd5e1" stroke-width="4"/>
-                        <rect x="105" y="80" width="10" height="20" fill="#94a3b8" rx="2"/>
-                        <rect id="switch-handle" x="100" y="80" width="20" height="10" fill="#475569"/>
-                        <g id="stickman" style="opacity:0">
-                            <circle cx="30" cy="80" r="8" fill="#1e293b"/>
-                            <line x1="30" y1="88" x2="30" y2="110" stroke="#1e293b" stroke-width="4"/>
-                            <line x1="30" y1="110" x2="20" y2="130" stroke="#1e293b" stroke-width="4"/>
-                            <line x1="30" y1="110" x2="40" y2="130" stroke="#1e293b" stroke-width="4"/>
-                            <line x1="30" y1="95" x2="15" y2="105" stroke="#1e293b" stroke-width="4"/>
-                            <line x1="30" y1="95" x2="45" y2="105" stroke="#1e293b" stroke-width="4"/>
-                        </g>
-                    </svg>
-                </div>
+                <svg width="150" height="150" viewBox="0 0 150 150" class="mx-auto">
+                    <circle id="bulb" cx="110" cy="40" r="15" fill="#e2e8f0"/>
+                    <rect x="105" y="55" width="10" height="5" fill="#cbd5e1"/>
+                    <path d="M 110 60 L 110 80" stroke="#cbd5e1" stroke-width="4"/>
+                    <rect x="105" y="80" width="10" height="20" fill="#94a3b8" rx="2"/>
+                    <rect id="switch-handle" x="100" y="80" width="20" height="10" fill="#475569"/>
+                    <g id="stickman" style="opacity:0">
+                        <circle cx="30" cy="80" r="8" fill="#1e293b"/>
+                        <line x1="30" y1="88" x2="30" y2="110" stroke="#1e293b" stroke-width="4"/>
+                        <line x1="30" y1="110" x2="20" y2="130" stroke="#1e293b" stroke-width="4"/>
+                        <line x1="30" y1="110" x2="40" y2="130" stroke="#1e293b" stroke-width="4"/>
+                        <line x1="30" y1="95" x2="15" y2="105" stroke="#1e293b" stroke-width="4"/>
+                        <line x1="30" y1="95" x2="45" y2="105" stroke="#1e293b" stroke-width="4"/>
+                    </g>
+                </svg>
                 <p class="text-lg font-medium text-slate-800">網頁處理中，請稍後</p>
             </div>
         </div>
@@ -228,19 +201,21 @@
 
                 const selectedDate = document.getElementById('date-input').value;
                 const hideLogs = document.getElementById('hide-logs').checked;
+                const hideAlbums = document.getElementById('hide-albums').checked;
                 const posts = document.querySelectorAll('#posts-container .post-item');
                 let visibleCount = 0;
                 
                 posts.forEach(post => {
                     const title = post.querySelector('a').textContent.toLowerCase();
-                    const folderAttr = post.getAttribute('data-folder');
-                    const folderArray = folderAttr ? folderAttr.split(',') : [];
+                    const folder = post.getAttribute('data-folder') || "";
+                    const folders = folder.split(',');
                     const date = post.getAttribute('data-date'); 
 
                     const matchSearch = (title.includes(query));
                     const matchDate = (selectedDate === '' || date === selectedDate);
-                    const matchFolder = (currentFolder === '全部貼文' || folderArray.includes(currentFolder));
-                    const isLog = folderArray.includes('更新日誌');
+                    const matchFolder = (currentFolder === '全部貼文' || folders.includes(currentFolder));
+                    const isLog = folders.includes('更新日誌');
+                    const isAlbum = folders.includes('相簿');
 
                     if (query.length > 0 && query !== '548700') {
                         if (matchSearch) { post.classList.remove('hidden'); visibleCount++; }
@@ -248,13 +223,15 @@
                     } else {
                         if (selectedDate !== '' && !matchDate) post.classList.add('hidden');
                         else {
-                            if (hideLogs && isLog) post.classList.add('hidden');
+                            if (currentFolder === '全部貼文' && ((hideLogs && isLog) || (hideAlbums && isAlbum))) post.classList.add('hidden');
                             else if (matchFolder) { post.classList.remove('hidden'); visibleCount++; }
                             else post.classList.add('hidden');
                         }
                     }
                 });
-                document.getElementById('no-results').classList.toggle('hidden', visibleCount > 0);
+                
+                const noResults = document.getElementById('no-results');
+                noResults.classList.toggle('hidden', visibleCount > 0);
             }
 
             function clearSearch() {
@@ -271,41 +248,24 @@
             }
 
             function closeManagement() { document.getElementById('management-panel').classList.add('hidden'); }
-            
+
             function showProcessing() {
                 const modal = document.getElementById('processing-modal');
-                const stickman = document.getElementById('stickman');
-                const bulb = document.getElementById('bulb');
-                const handle = document.getElementById('switch-handle');
-                
                 modal.classList.remove('hidden');
-                stickman.classList.remove('animate-walk-in', 'animate-walk-out');
-                bulb.classList.remove('animate-glow');
-                handle.classList.remove('animate-pull');
-                void stickman.offsetWidth; 
-                
-                stickman.classList.add('animate-walk-in');
-                setTimeout(() => {
-                    handle.classList.add('animate-pull');
-                    bulb.classList.add('animate-glow');
-                }, 800);
-                setTimeout(() => {
-                    stickman.classList.add('animate-walk-out');
-                }, 1500);
                 setTimeout(() => {
                     if (targetUrl && targetUrl !== '#') {
                         if (targetPlatform === 'external') window.open(targetUrl, '_blank');
                         else window.location.href = targetUrl;
                     }
                     modal.classList.add('hidden');
-                }, 2500);
+                }, 1000);
             }
         </script>
     </main>
 
     <footer class="text-center py-12 px-4 text-slate-400 text-sm">
-        <p class="mb-4">不准跨過我的底線 不然 V1.4.0 也要重畫一條!</p>
-        <p class="text-xs text-slate-400 mt-2">v1.4.0</p>
+        <p class="mb-4">不准跨過我的底線 不然 V1.3.0 也要重畫一條!</p>
+        <p class="text-xs text-slate-400 mt-2">v1.3.0</p>
     </footer>
 </body>
 </html>
